@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
+import 'package:selly/page/login_page.dart';
 
 void main() {
   runApp(
@@ -27,9 +28,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      initialRoute: "/",
+      initialRoute: "/login",
       routes: {
-        "/": (_) => HomePage(),
+        "/login": (_) => LoginPage(),
+        "/home": (_) => HomePage(),
         "/checkout": (_) => CheckoutPage(),
       },
     );
