@@ -27,6 +27,10 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 10,
           ),
+          guestButton(),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             "Non ricordi la tua password",
             style: TextStyle(fontSize: 16),
@@ -105,6 +109,27 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Text(
             "Login",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ),
+      );
+
+  Widget guestButton() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: MaterialButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/home");
+          },
+          height: 50,
+          elevation: 0,
+          minWidth: double.infinity,
+          color: Colors.orange.shade700,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Text(
+            "Entra come ospite",
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),

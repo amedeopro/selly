@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           sectionProducts(),
           floatingCheckoutButton(),
+          floatingFidelity(),
         ],
       ),
     );
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.w400,
                 color: Colors.grey.shade600,
               ),
-            )
+            ),
           ],
         ),
       );
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
           (state as ShoppingCartBlocStateLoaded).products;
 
           return GridView.builder(
-            padding: EdgeInsets.fromLTRB(16, 32, 16, 100),
+            padding: EdgeInsets.fromLTRB(16, 100, 16, 100),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
@@ -171,3 +172,32 @@ class _HomePageState extends State<HomePage> {
         }
       });
 }
+
+Widget floatingFidelity() => Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: ListTile(
+            dense: true,
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(
+                  "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
+            ),
+            title: Text(
+              "Amedeo Pro",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Text("Accumula punti con i tuoi acquisti",
+                style: TextStyle(fontSize: 10)),
+            trailing: Text(
+              "Punti Fidelity 134",
+              style: TextStyle(fontSize: 10),
+            )),
+      ),
+    );
