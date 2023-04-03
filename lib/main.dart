@@ -5,6 +5,8 @@ import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:selly/page/login_page.dart';
 
+import 'bloc/show_fidelity_bloc.dart';
+
 void main() {
   runApp(
     MultiBlocProvider(
@@ -12,6 +14,9 @@ void main() {
         BlocProvider(
           create: (_) => ShoppingCartBloc(),
         ),
+        BlocProvider(
+          create: (_) => ShowFidelityBloc(),
+        )
       ],
       child: MyApp(),
     ),
