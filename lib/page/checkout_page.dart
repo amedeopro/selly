@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:selly/components/appbar.dart';
 
 class CheckoutPage extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class CheckoutPage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
-        appBar: appBar(),
+        appBar: appBar(title: "Checkout", subtitle: "", iconBack: true),
         body: CustomScrollView(
           slivers: [
             sectionProductList(),
@@ -29,7 +30,7 @@ class CheckoutPage extends StatelessWidget {
     );
   }
 
-  AppBar appBar() => AppBar(
+  /* AppBar appBar() => AppBar(
         backgroundColor: Colors.grey.shade100,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
@@ -38,7 +39,7 @@ class CheckoutPage extends StatelessWidget {
           "Checkout",
           style: TextStyle(color: Colors.black),
         ),
-      );
+      );*/
 
   Widget sectionProductList() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
