@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/bloc/show_fidelity_bloc.dart';
 import 'package:selly/model/product_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,8 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool showFidelity = false;
-
   @override
   void initState() {
     super.initState();
@@ -103,7 +102,67 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
         if (state is ShoppingCartBlocStateLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.white,
+                  child: GridView.builder(
+                    padding: EdgeInsets.fromLTRB(16, 50, 16, 100),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 3 / 5,
+                    ),
+                    itemCount: 6,
+                    itemBuilder: (context, index) => Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: NetworkImage(""),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            "",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            "",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
           );
         } else {
           (state as ShoppingCartBlocStateLoaded).products;
@@ -135,15 +194,16 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Expanded(
-                          child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(products[index].imageUrl),
-                            fit: BoxFit.cover,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(products[index].imageUrl),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      )),
+                      ),
                       SizedBox(
                         height: 4,
                       ),
