@@ -4,6 +4,7 @@ import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/bloc/show_fidelity_bloc.dart';
 import 'package:selly/model/product_model.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:getwidget/getwidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,43 +29,45 @@ class _HomePageState extends State<HomePage> {
           sectionProducts(),
           floatingCheckoutButton(),
           BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
-              builder: (context, state) {
-            final bool show =
-                (state as ShowFidelityBlocStateValue).showFidelity;
-            if (show) {
-              return floatingFidelity(context);
-            } else {
-              return GestureDetector(
-                onTap: () {
-                  BlocProvider.of<ShowFidelityBloc>(context)
-                      .add(ShowFidelityBlocEventToggle(true));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Colors.orange,
-                        Colors.red,
+            builder: (context, state) {
+              final bool show =
+                  (state as ShowFidelityBlocStateValue).showFidelity;
+              if (show) {
+                return floatingFidelity(context);
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<ShowFidelityBloc>(context)
+                        .add(ShowFidelityBlocEventToggle(true));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.orange,
+                          Colors.red,
+                        ],
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Punti Fidelity",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Punti Fidelity",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          })
+                );
+              }
+            },
+          ),
+          categories()
         ],
       ),
     );
@@ -106,62 +109,27 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               height: double.infinity,
               child: Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.white,
-                  child: GridView.builder(
-                    padding: EdgeInsets.fromLTRB(16, 50, 16, 100),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 3 / 5,
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.white,
+                child: GridView.builder(
+                  padding: EdgeInsets.fromLTRB(16, 100, 16, 100),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 3 / 5,
+                  ),
+                  itemCount: 6,
+                  itemBuilder: (context, index) => Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    itemCount: 6,
-                    itemBuilder: (context, index) => Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: NetworkImage(""),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            "",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            "",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )),
+                    child: SizedBox(),
+                  ),
+                ),
+              ),
             ),
           );
         } else {
@@ -173,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                 (state as ShowFidelityBlocStateValue).showFidelity;
 
             return GridView.builder(
-              padding: EdgeInsets.fromLTRB(16, show ? 85 : 50, 16, 100),
+              padding: EdgeInsets.fromLTRB(16, show ? 125 : 95, 16, 100),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
@@ -298,13 +266,13 @@ Widget floatingFidelity(context) => Positioned(
         },
         child: Container(
           decoration: BoxDecoration(
-            boxShadow: [
+            /*boxShadow: [
               BoxShadow(
                 offset: Offset(1, 3),
                 blurRadius: 10,
                 color: Colors.grey.shade600,
               )
-            ],
+            ],*/
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -346,3 +314,72 @@ Widget floatingFidelity(context) => Positioned(
         ),
       ),
     );
+
+Widget categories() => BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
+        builder: (context, state) {
+      final bool show = (state as ShowFidelityBlocStateValue).showFidelity;
+      return Container(
+        color: Colors.grey.shade100,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: show ? 65.0 : 35.0),
+        height: 50.0,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: () {},
+              text: "Caffé in polvere",
+              shape: GFButtonShape.pills,
+              type: GFButtonType.outline2x,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: () {},
+              text: "Caffé in grani",
+              shape: GFButtonShape.pills,
+              color: Colors.orange,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: null,
+              text: "Cialde",
+              shape: GFButtonShape.pills,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: () {},
+              text: "Capsule",
+              shape: GFButtonShape.pills,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: () {},
+              text: "Zucchero",
+              shape: GFButtonShape.pills,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            GFButton(
+              onPressed: () {},
+              text: "Accessori",
+              shape: GFButtonShape.pills,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+          ],
+        ),
+      );
+    });
