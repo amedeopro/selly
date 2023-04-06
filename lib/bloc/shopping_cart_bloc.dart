@@ -27,7 +27,7 @@ class ShoppingCartBloc
         item.inShoppingCart = false;
       }
 
-      emit(ShoppingCartBlocStateLoaded(products));
+      //emit(ShoppingCartBlocStateLoaded(products));
     });
   }
 }

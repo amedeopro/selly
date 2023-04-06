@@ -39,8 +39,6 @@ Widget sectionProducts() =>
           ),
         );
       } else {
-        (state as ShoppingCartBlocStateLoaded).products;
-
         return BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
             builder: (context, state) {
           final bool show = (state as ShowFidelityBlocStateValue).showFidelity;
@@ -56,7 +54,6 @@ Widget sectionProducts() =>
             itemCount: products.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                print("Hai cliccato su ${products[index].name}");
                 Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selly/bloc/categories_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/bloc/show_fidelity_bloc.dart';
 
@@ -19,8 +20,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     BlocProvider.of<ShoppingCartBloc>(context).add(ShoppingCartBlocEventInit());
+    BlocProvider.of<CategoriesBloc>(context).add(CategoriesBlocEventInit());
   }
 
   @override

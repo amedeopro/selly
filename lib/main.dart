@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selly/bloc/categories_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
@@ -20,6 +21,9 @@ void main() {
         ),
         BlocProvider(
           create: (_) => FidelityPointsBloc(),
+        ),
+        BlocProvider(
+          create: (_) => CategoriesBloc(),
         ),
       ],
       child: MyApp(),
