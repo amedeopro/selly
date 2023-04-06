@@ -4,13 +4,14 @@ import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:selly/components/appbar.dart';
+import 'package:selly/model/product_model.dart';
 
 class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ShoppingCartBloc, ShoppingCartBlocState>(
       listener: (context, state) {
-        final products = (state as ShoppingCartBlocStateLoaded).products;
+        //final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
 
@@ -34,7 +35,7 @@ class CheckoutPage extends StatelessWidget {
   Widget sectionProductList() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
           builder: (context, state) {
-        final products = (state as ShoppingCartBlocStateLoaded).products;
+        //final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
         return SliverList(
@@ -70,7 +71,7 @@ class CheckoutPage extends StatelessWidget {
   Widget sectionCostRecap() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
           builder: (context, state) {
-        final products = (state as ShoppingCartBlocStateLoaded).products;
+        //final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
 
@@ -112,8 +113,6 @@ class CheckoutPage extends StatelessWidget {
                   onPressed: () async {
                     BlocProvider.of<FidelityPointsBloc>(context)
                         .add(FidelityPointsBlocEventTotal(fidelityPoints));
-
-                    //await Future.delayed(Duration(seconds: 2));
 
                     Navigator.pushNamed(context, '/home');
 
