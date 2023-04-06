@@ -19,6 +19,16 @@ class ShoppingCartBloc
 
       emit(ShoppingCartBlocStateLoaded(products));
     });
+
+    on<ShoppingCartBlocEventProductDelete>((event, emit) async {
+      final products = (state as ShoppingCartBlocStateLoaded).products;
+
+      for (var item in products) {
+        item.inShoppingCart = false;
+      }
+
+      emit(ShoppingCartBlocStateLoaded(products));
+    });
   }
 }
 
@@ -30,6 +40,8 @@ class ShoppingCartBlocEventProductToggle extends ShoppingCartBlocEvent {
   final ProductModel product;
   ShoppingCartBlocEventProductToggle(this.product);
 }
+
+class ShoppingCartBlocEventProductDelete extends ShoppingCartBlocEvent {}
 
 abstract class ShoppingCartBlocState {}
 

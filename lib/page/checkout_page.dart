@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:selly/components/appbar.dart';
@@ -29,17 +30,6 @@ class CheckoutPage extends StatelessWidget {
       ),
     );
   }
-
-  /* AppBar appBar() => AppBar(
-        backgroundColor: Colors.grey.shade100,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        centerTitle: true,
-        title: Text(
-          "Checkout",
-          style: TextStyle(color: Colors.black),
-        ),
-      );*/
 
   Widget sectionProductList() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
@@ -85,6 +75,8 @@ class CheckoutPage extends StatelessWidget {
             products.where((it) => it.inShoppingCart).toList();
 
         final subtotal = productsInShoppingCart.map((it) => it.price).sum;
+        final fidelityPoints =
+            productsInShoppingCart.map((it) => it.fidelityPoint).sum;
         final tax = subtotal * 0.22;
         final total = subtotal + tax;
 
@@ -93,6 +85,7 @@ class CheckoutPage extends StatelessWidget {
             children: [
               CheckoutRow(text: "Subtotale", value: subtotal),
               CheckoutRow(text: "IVA", value: tax),
+              CheckoutRowPoints(text: "Punti Fidelity", value: fidelityPoints),
               ListTile(
                 dense: true,
                 title: Text(
@@ -116,7 +109,17 @@ class CheckoutPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    BlocProvider.of<FidelityPointsBloc>(context)
+                        .add(FidelityPointsBlocEventTotal(fidelityPoints));
+
+                    //await Future.delayed(Duration(seconds: 2));
+
+                    Navigator.pushNamed(context, '/home');
+
+                    BlocProvider.of<ShoppingCartBloc>(context)
+                        .add(ShoppingCartBlocEventProductDelete());
+                  },
                   height: 50,
                   elevation: 0,
                   minWidth: double.infinity,
@@ -152,6 +155,31 @@ class CheckoutRow extends StatelessWidget {
       ),
       trailing: Text(
         "€ ${value.toStringAsFixed(2)}",
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+class CheckoutRowPoints extends StatelessWidget {
+  final String text;
+  final double value;
+
+  const CheckoutRowPoints({required this.text, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      title: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey.shade600,
+        ),
+      ),
+      trailing: Text(
+        value.toStringAsFixed(2),
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
