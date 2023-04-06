@@ -9,6 +9,7 @@ class CategoryModel {
 }
 
 final categoriesList = [
+  CategoryModel(id: "0", name: "Tutti"),
   CategoryModel(id: "1", name: "categoria1"),
   CategoryModel(id: "2", name: "categoria2"),
   CategoryModel(id: "3", name: "categoria3"),

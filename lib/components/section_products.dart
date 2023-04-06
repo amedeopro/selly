@@ -8,8 +8,8 @@ import 'package:selly/bloc/show_fidelity_bloc.dart';
 
 Widget sectionProducts() =>
     BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
-        builder: (context, state) {
-      if (state is ShoppingCartBlocStateLoading) {
+        builder: (context, stateShopping) {
+      if (stateShopping is ShoppingCartBlocStateLoading) {
         return Center(
           child: SizedBox(
             width: double.infinity,
@@ -43,6 +43,9 @@ Widget sectionProducts() =>
             builder: (context, state) {
           final bool show = (state as ShowFidelityBlocStateValue).showFidelity;
 
+          final productsLoaded =
+              (stateShopping as ShoppingCartBlocStateLoaded).products;
+
           return GridView.builder(
             padding: EdgeInsets.fromLTRB(16, show ? 125 : 95, 16, 100),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -51,14 +54,14 @@ Widget sectionProducts() =>
               mainAxisSpacing: 16,
               childAspectRatio: 3 / 5,
             ),
-            itemCount: products.length,
+            itemCount: productsLoaded.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProductDetails(
-                              product: products[index],
+                              product: productsLoaded[index],
                             )));
               },
               child: Container(
@@ -74,7 +77,7 @@ Widget sectionProducts() =>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: NetworkImage(products[index].imageUrl),
+                            image: NetworkImage(productsLoaded[index].imageUrl),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -84,7 +87,7 @@ Widget sectionProducts() =>
                       height: 4,
                     ),
                     Text(
-                      products[index].name,
+                      productsLoaded[index].name,
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
@@ -93,7 +96,7 @@ Widget sectionProducts() =>
                       height: 4,
                     ),
                     Text(
-                      "€ ${products[index].price.toString()}",
+                      "€ ${productsLoaded[index].price.toString()}",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey.shade600,
@@ -106,14 +109,14 @@ Widget sectionProducts() =>
                       onPressed: () {
                         BlocProvider.of<ShoppingCartBloc>(context).add(
                             ShoppingCartBlocEventProductToggle(
-                                products[index]));
+                                productsLoaded[index]));
                       },
                       minWidth: double.infinity,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                         side: BorderSide(color: Colors.black12),
                       ),
-                      child: Text(products[index].inShoppingCart
+                      child: Text(productsLoaded[index].inShoppingCart
                           ? "Rimuovi"
                           : "Aggiungi"),
                     )

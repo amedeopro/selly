@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:selly/bloc/categories_bloc.dart';
+import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/bloc/show_fidelity_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:selly/model/category_model.dart';
@@ -44,7 +45,17 @@ Widget categories() => BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
                   return Container(
                     margin: const EdgeInsets.only(right: 5, left: 5),
                     child: GFButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (categoriesList[index].id == "0") {
+                          print("Visualizza tutti i prodotti");
+                          BlocProvider.of<ShoppingCartBloc>(context)
+                              .add(ShoppingCartBlocEventInit());
+                        } else {
+                          BlocProvider.of<ShoppingCartBloc>(context).add(
+                              ShoppingCartBlocEventProductChangeCategory(
+                                  categoriesList[index].id));
+                        }
+                      },
                       text: categoriesList[index].name,
                       shape: GFButtonShape.pills,
                       type: GFButtonType.outline2x,

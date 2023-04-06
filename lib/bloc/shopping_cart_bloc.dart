@@ -29,6 +29,14 @@ class ShoppingCartBloc
 
       //emit(ShoppingCartBlocStateLoaded(products));
     });
+
+    on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
+      //final products = (state as ShoppingCartBlocStateLoaded).products;
+      List<ProductModel> productCategorized =
+          products.where((it) => it.categoryId == event.category_id).toList();
+
+      emit(ShoppingCartBlocStateLoaded(productCategorized));
+    });
   }
 }
 
@@ -42,6 +50,11 @@ class ShoppingCartBlocEventProductToggle extends ShoppingCartBlocEvent {
 }
 
 class ShoppingCartBlocEventProductDelete extends ShoppingCartBlocEvent {}
+
+class ShoppingCartBlocEventProductChangeCategory extends ShoppingCartBlocEvent {
+  final String category_id;
+  ShoppingCartBlocEventProductChangeCategory(this.category_id);
+}
 
 abstract class ShoppingCartBlocState {}
 
