@@ -1,13 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/model/product_model.dart';
+import 'package:selly/resources/api_repository.dart';
 
 class ShoppingCartBloc
     extends Bloc<ShoppingCartBlocEvent, ShoppingCartBlocState> {
   ShoppingCartBloc() : super(ShoppingCartBlocStateLoading()) {
+    final ApiRepository _apiRepository = ApiRepository();
+
     on<ShoppingCartBlocEventInit>((event, emit) async {
-      emit(ShoppingCartBlocStateLoading());
-      await Future.delayed(Duration(seconds: 2));
-      emit(ShoppingCartBlocStateLoaded(products));
+      try {
+        emit(ShoppingCartBlocStateLoading());
+        await Future.delayed(Duration(seconds: 2));
+        final products = await _apiRepository.fetchProductList();
+        emit(ShoppingCartBlocStateLoaded(products as List<ProductModel>));
+      } catch (e) {
+        print(e);
+        return;
+      }
     });
 
     on<ShoppingCartBlocEventProductToggle>((event, emit) async {
@@ -30,13 +39,12 @@ class ShoppingCartBloc
       //emit(ShoppingCartBlocStateLoaded(products));
     });
 
-    on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
+    /*on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
       //final products = (state as ShoppingCartBlocStateLoaded).products;
-      List<ProductModel> productCategorized =
-          products.where((it) => it.categoryId == event.category_id).toList();
+      List<ProductModel> productCategorized = products.where((it) => it.categoryId == event.category_id).toList();
 
       emit(ShoppingCartBlocStateLoaded(productCategorized));
-    });
+    });*/
   }
 }
 

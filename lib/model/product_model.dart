@@ -1,9 +1,11 @@
+import 'package:selly/model/category_model.dart';
+
 class ProductModel {
   final String imageUrl;
   final String name;
   final String description;
-  final double price;
-  final double fidelityPoint;
+  final int price;
+  final int fidelityPoint;
   final String categoryId;
   bool inShoppingCart;
 
@@ -18,7 +20,7 @@ class ProductModel {
   });
 }
 
-final products = [
+/*final products = [
   ProductModel(
     imageUrl:
         "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -76,7 +78,7 @@ final products = [
     description:
         "Il Caffè alla Liquirizia di 101CAFFE’ è una selezionata miscela di Arabica e Robusta pregiati, con aggiunta di liquirizia macinata. Il suo gusto e il suo aroma pieno ed armonioso è frutto di una sapiente lavorazione e della tostatura su legno di faggio, procedimento lento che consente al chicco di non bruciarsi. Dal profumo tipico di questa pianta e dal sapore inconfondibile, il Caffè alla Liquirizia di 101CAFFE’ è perfetto per quei momenti della giornata in cui si desidera un espresso molto personale. Per Moka. ",
     price: 21,
-    fidelityPoint: 0.5,
+    fidelityPoint: 5,
     categoryId: "5",
   ),
-];
+];*/

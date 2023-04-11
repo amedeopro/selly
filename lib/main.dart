@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:selly/bloc/categories_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
@@ -9,7 +10,8 @@ import 'package:selly/page/login_page.dart';
 
 import 'bloc/show_fidelity_bloc.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiBlocProvider(
       providers: [

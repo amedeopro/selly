@@ -77,7 +77,8 @@ Widget sectionProducts() =>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: NetworkImage(productsLoaded[index].imageUrl),
+                            image: NetworkImage(
+                                productsLoaded[index].imageUrl.toString()),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -87,7 +88,7 @@ Widget sectionProducts() =>
                       height: 4,
                     ),
                     Text(
-                      productsLoaded[index].name,
+                      productsLoaded[index].name.toString(),
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w500),

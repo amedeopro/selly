@@ -38,31 +38,37 @@ Widget categories() => BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
                 },
               );
             } else {
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: categoriesList.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(right: 5, left: 5),
-                    child: GFButton(
-                      onPressed: () {
-                        if (categoriesList[index].id == "0") {
-                          print("Visualizza tutti i prodotti");
-                          BlocProvider.of<ShoppingCartBloc>(context)
-                              .add(ShoppingCartBlocEventInit());
-                        } else {
-                          BlocProvider.of<ShoppingCartBloc>(context).add(
-                              ShoppingCartBlocEventProductChangeCategory(
-                                  categoriesList[index].id));
-                        }
-                      },
-                      text: categoriesList[index].name,
-                      shape: GFButtonShape.pills,
-                      type: GFButtonType.outline2x,
-                    ),
-                  );
-                },
-              );
+              return BlocBuilder<CategoriesBloc, CategoriesBlocState>(
+                  builder: (context, state) {
+                final categoriesList =
+                    (state as CategoriesBlocStateLoaded).categories;
+
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categoriesList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 5, left: 5),
+                      child: GFButton(
+                        onPressed: () {
+                          /*if (categoriesList[index].id == "0") {
+                              print("Visualizza tutti i prodotti");
+                              BlocProvider.of<ShoppingCartBloc>(context)
+                                  .add(ShoppingCartBlocEventInit());
+                            } else {
+                              BlocProvider.of<ShoppingCartBloc>(context).add(
+                                  ShoppingCartBlocEventProductChangeCategory(
+                                      categoriesList[index].id));
+                            }*/
+                        },
+                        text: categoriesList[index].name,
+                        shape: GFButtonShape.pills,
+                        type: GFButtonType.outline2x,
+                      ),
+                    );
+                  },
+                );
+              });
             }
           },
         ),

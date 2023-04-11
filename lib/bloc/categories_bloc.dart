@@ -1,12 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/model/category_model.dart';
+import 'package:selly/resources/api_repository.dart';
 
 class CategoriesBloc extends Bloc<CategoriesBlocEvent, CategoriesBlocState> {
   CategoriesBloc() : super(CategoriesBlocStateLoading()) {
+    final ApiRepository _apiRepository = ApiRepository();
+
     on<CategoriesBlocEventInit>((event, emit) async {
-      emit(CategoriesBlocStateLoading());
-      await Future.delayed(const Duration(seconds: 2));
-      emit(CategoriesBlocStateLoaded(categoriesList));
+      try {
+        emit(CategoriesBlocStateLoading());
+        await await Future.delayed(const Duration(seconds: 2));
+        final categoriesList = await _apiRepository.fetchCategoryList();
+        emit(CategoriesBlocStateLoaded(categoriesList as List<CategoryModel>));
+      } catch (e) {
+        print(e);
+        return;
+      }
     });
   }
 }

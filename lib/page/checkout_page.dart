@@ -11,7 +11,7 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ShoppingCartBloc, ShoppingCartBlocState>(
       listener: (context, state) {
-        //final products = (state as ShoppingCartBlocStateLoaded).products;
+        final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
 
@@ -35,7 +35,7 @@ class CheckoutPage extends StatelessWidget {
   Widget sectionProductList() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
           builder: (context, state) {
-        //final products = (state as ShoppingCartBlocStateLoaded).products;
+        final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
         return SliverList(
@@ -46,10 +46,10 @@ class CheckoutPage extends StatelessWidget {
                       leading: CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(
-                            productsInShoppingCart[index].imageUrl),
+                            productsInShoppingCart[index].imageUrl.toString()),
                       ),
                       title: Text(
-                        products[index].name,
+                        products[index].name.toString(),
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       subtitle:
@@ -71,7 +71,7 @@ class CheckoutPage extends StatelessWidget {
   Widget sectionCostRecap() =>
       BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
           builder: (context, state) {
-        //final products = (state as ShoppingCartBlocStateLoaded).products;
+        final products = (state as ShoppingCartBlocStateLoaded).products;
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
 
@@ -84,9 +84,10 @@ class CheckoutPage extends StatelessWidget {
         return SliverToBoxAdapter(
           child: Column(
             children: [
-              CheckoutRow(text: "Subtotale", value: subtotal),
+              CheckoutRow(text: "Subtotale", value: subtotal.toDouble()),
               CheckoutRow(text: "IVA", value: tax),
-              CheckoutRowPoints(text: "Punti Fidelity", value: fidelityPoints),
+              CheckoutRowPoints(
+                  text: "Punti Fidelity", value: fidelityPoints.toDouble()),
               ListTile(
                 dense: true,
                 title: Text(
@@ -111,8 +112,9 @@ class CheckoutPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: MaterialButton(
                   onPressed: () async {
-                    BlocProvider.of<FidelityPointsBloc>(context)
-                        .add(FidelityPointsBlocEventTotal(fidelityPoints));
+                    BlocProvider.of<FidelityPointsBloc>(context).add(
+                        FidelityPointsBlocEventTotal(
+                            fidelityPoints.toDouble()));
 
                     Navigator.pushNamed(context, '/home');
 

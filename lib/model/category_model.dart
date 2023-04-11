@@ -8,7 +8,7 @@ class CategoryModel {
   });
 }
 
-final categoriesList = [
+/*final categoriesList = [
   CategoryModel(id: "0", name: "Tutti"),
   CategoryModel(id: "1", name: "categoria1"),
   CategoryModel(id: "2", name: "categoria2"),
@@ -16,4 +16,4 @@ final categoriesList = [
   CategoryModel(id: "4", name: "categoria4"),
   CategoryModel(id: "5", name: "categoria5"),
   CategoryModel(id: "6", name: "categoria6"),
-];
+];*/
