@@ -17,7 +17,7 @@ class ApiProvider {
       final data = response.data['products'];
 
       List<ProductModel> productsFromApi = [];
-      final category = <CategoryModel>[];
+      final category = <int>[];
 
       for (var item in data) {
         //print('ciclo prodotti: ${item['name']}');
@@ -25,7 +25,7 @@ class ApiProvider {
 
         if (item['category'] != null) {
           for (var cat in item['category']) {
-            category.add(CategoryModel(id: cat['id'], name: cat['name']));
+            category.add(cat['id']);
           }
         }
 

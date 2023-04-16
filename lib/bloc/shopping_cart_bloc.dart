@@ -43,10 +43,7 @@ class ShoppingCartBloc
       final products = (state as ShoppingCartBlocStateLoaded).products;
 
       final productCategorized = products
-          .where((it) =>
-              it.categoryId
-                  .where((element) => element.id == event.categoryId) ==
-              event.categoryId)
+          .where((product) => product.categoryId.contains(event.categoryId))
           .toList();
 
       emit(ShoppingCartBlocStateLoaded(productCategorized));
