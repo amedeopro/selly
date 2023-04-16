@@ -36,15 +36,21 @@ class ShoppingCartBloc
         item.inShoppingCart = false;
       }
 
-      //emit(ShoppingCartBlocStateLoaded(products));
+      emit(ShoppingCartBlocStateLoaded(products));
     });
 
-    /*on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
-      //final products = (state as ShoppingCartBlocStateLoaded).products;
-      List<ProductModel> productCategorized = products.where((it) => it.categoryId == event.category_id).toList();
+    on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
+      final products = (state as ShoppingCartBlocStateLoaded).products;
+
+      final productCategorized = products
+          .where((it) =>
+              it.categoryId
+                  .where((element) => element.id == event.categoryId) ==
+              event.categoryId)
+          .toList();
 
       emit(ShoppingCartBlocStateLoaded(productCategorized));
-    });*/
+    });
   }
 }
 
@@ -60,8 +66,8 @@ class ShoppingCartBlocEventProductToggle extends ShoppingCartBlocEvent {
 class ShoppingCartBlocEventProductDelete extends ShoppingCartBlocEvent {}
 
 class ShoppingCartBlocEventProductChangeCategory extends ShoppingCartBlocEvent {
-  final String category_id;
-  ShoppingCartBlocEventProductChangeCategory(this.category_id);
+  final int categoryId;
+  ShoppingCartBlocEventProductChangeCategory(this.categoryId);
 }
 
 abstract class ShoppingCartBlocState {}
