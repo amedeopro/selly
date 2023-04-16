@@ -51,15 +51,16 @@ Widget categories() => BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
                       margin: const EdgeInsets.only(right: 5, left: 5),
                       child: GFButton(
                         onPressed: () {
-                          /*if (categoriesList[index].id == "0") {
-                              print("Visualizza tutti i prodotti");
-                              BlocProvider.of<ShoppingCartBloc>(context)
-                                  .add(ShoppingCartBlocEventInit());
-                            } else {
-                              BlocProvider.of<ShoppingCartBloc>(context).add(
-                                  ShoppingCartBlocEventProductChangeCategory(
-                                      categoriesList[index].id));
-                            }*/
+                          if (categoriesList[index].id == 1) {
+                            print("Visualizza tutti i prodotti");
+                            BlocProvider.of<ShoppingCartBloc>(context)
+                                .add(ShoppingCartBlocEventInit());
+                          } else {
+                            print(categoriesList[index].id);
+                            BlocProvider.of<ShoppingCartBloc>(context).add(
+                                ShoppingCartBlocEventProductChangeCategory(
+                                    categoriesList[index].id));
+                          }
                         },
                         text: categoriesList[index].name,
                         shape: GFButtonShape.pills,

@@ -6,7 +6,7 @@ class ProductModel {
   final String description;
   final int price;
   final int fidelityPoint;
-  final String categoryId;
+  final List<CategoryModel> categoryId;
   bool inShoppingCart;
 
   ProductModel({

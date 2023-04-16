@@ -1,5 +1,5 @@
 class CategoryModel {
-  final String id;
+  final int id;
   final String name;
 
   CategoryModel({

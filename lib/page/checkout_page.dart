@@ -116,10 +116,11 @@ class CheckoutPage extends StatelessWidget {
                         FidelityPointsBlocEventTotal(
                             fidelityPoints.toDouble()));
 
-                    Navigator.pushNamed(context, '/home');
-
                     BlocProvider.of<ShoppingCartBloc>(context)
                         .add(ShoppingCartBlocEventProductDelete());
+
+                    //TODO: creare pagina acquisto completato
+                    Navigator.pushNamed(context, '/home');
                   },
                   height: 50,
                   elevation: 0,

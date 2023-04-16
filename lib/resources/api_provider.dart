@@ -17,17 +17,28 @@ class ApiProvider {
       final data = response.data['products'];
 
       List<ProductModel> productsFromApi = [];
+      final category = <CategoryModel>[];
 
       for (var item in data) {
-        print('ciclo prodotti: ${item['name']}');
+        //print('ciclo prodotti: ${item['name']}');
+        //print(item['category']);
 
-        productsFromApi.add(ProductModel(
+        if (item['category'] != null) {
+          for (var cat in item['category']) {
+            category.add(CategoryModel(id: cat['id'], name: cat['name']));
+          }
+        }
+
+        productsFromApi.add(
+          ProductModel(
             imageUrl: item['imageUrl'],
             name: item['name'],
             description: item['description'],
             price: item['price'],
             fidelityPoint: item['fidelity_point'],
-            categoryId: "1"));
+            categoryId: category,
+          ),
+        );
       }
 
       return productsFromApi;
@@ -51,7 +62,7 @@ class ApiProvider {
       for (var item in data) {
         print('ciclo categorie: ${item['name']}');
         categoriesFromApi
-            .add(CategoryModel(id: item['id'].toString(), name: item['name']));
+            .add(CategoryModel(id: item['id'], name: item['name']));
       }
 
       return categoriesFromApi;
