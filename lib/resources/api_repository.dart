@@ -12,4 +12,8 @@ class ApiRepository {
   Future fetchCategoryList() {
     return _provider.fetchCategoryList();
   }
+
+  Future fetchProductFromCategory(categoryId) {
+    return _provider.fetchProductFromCategoryList(categoryId);
+  }
 }

@@ -40,13 +40,16 @@ class ShoppingCartBloc
     });
 
     on<ShoppingCartBlocEventProductChangeCategory>((event, emit) async {
-      final products = (state as ShoppingCartBlocStateLoaded).products;
-
-      final productCategorized = products
-          .where((product) => product.categoryId.contains(event.categoryId))
-          .toList();
-
-      emit(ShoppingCartBlocStateLoaded(productCategorized));
+      try {
+        emit(ShoppingCartBlocStateLoading());
+        await Future.delayed(Duration(seconds: 2));
+        final products =
+            await _apiRepository.fetchProductFromCategory(event.categoryId);
+        emit(ShoppingCartBlocStateLoaded(products as List<ProductModel>));
+      } catch (e) {
+        print(e);
+        return;
+      }
     });
   }
 }

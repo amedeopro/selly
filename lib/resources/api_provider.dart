@@ -71,4 +71,45 @@ class ApiProvider {
       return null;
     }
   }
+
+  Future fetchProductFromCategoryList(categoryId) async {
+    try {
+      Response response = await _dio
+          .get('${dotenv.env['API_BASE_URL']}product_category/$categoryId');
+
+      print(response.data['products']);
+
+      final data = response.data['products'];
+
+      List<ProductModel> productsFromApi = [];
+      final category = <int>[];
+
+      for (var item in data) {
+        //print('ciclo prodotti: ${item['name']}');
+        //print(item['category']);
+
+        if (item['category'] != null) {
+          for (var cat in item['category']) {
+            category.add(cat['id']);
+          }
+        }
+
+        productsFromApi.add(
+          ProductModel(
+            imageUrl: item['imageUrl'],
+            name: item['name'],
+            description: item['description'],
+            price: item['price'],
+            fidelityPoint: item['fidelity_point'],
+            categoryId: category,
+          ),
+        );
+      }
+
+      return productsFromApi;
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
 }
