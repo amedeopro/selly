@@ -8,6 +8,7 @@ class ProductModel {
   final int fidelityPoint;
   final List<int> categoryId;
   bool inShoppingCart;
+  int quantity;
 
   ProductModel({
     required this.imageUrl,
@@ -17,6 +18,7 @@ class ProductModel {
     required this.fidelityPoint,
     required this.categoryId,
     this.inShoppingCart = false,
+    this.quantity = 1,
   });
 }
 

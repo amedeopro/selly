@@ -42,26 +42,33 @@ class CheckoutPage extends StatelessWidget {
           delegate: SliverChildBuilderDelegate(
               (context, index) => Container(
                     color: Colors.white,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            productsInShoppingCart[index].imageUrl.toString()),
-                      ),
-                      title: Text(
-                        products[index].name.toString(),
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      subtitle:
-                          Text("€ ${productsInShoppingCart[index].price}"),
-                      trailing: IconButton(
-                        onPressed: () {
-                          BlocProvider.of<ShoppingCartBloc>(context).add(
-                              ShoppingCartBlocEventProductToggle(
-                                  products[index]));
-                        },
-                        icon: Icon(Icons.remove_circle_outline),
-                      ),
+                    child: Dismissible(
+                      key: Key(productsInShoppingCart[index].name),
+                      onDismissed: (direction) {
+                        BlocProvider.of<ShoppingCartBloc>(context).add(
+                            ShoppingCartBlocEventProductToggle(
+                                products[index]));
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                '${productsInShoppingCart[index].name} eliminato')));
+                      },
+                      background: Container(color: Colors.red),
+                      child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                                productsInShoppingCart[index]
+                                    .imageUrl
+                                    .toString()),
+                          ),
+                          title: Text(
+                            products[index].name.toString(),
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                              "€ ${productsInShoppingCart[index].price} x ${productsInShoppingCart[index].quantity}"),
+                          trailing: SizedBox()),
                     ),
                   ),
               childCount: productsInShoppingCart.length),
@@ -120,7 +127,8 @@ class CheckoutPage extends StatelessWidget {
                         .add(ShoppingCartBlocEventProductDelete());
 
                     //TODO: creare pagina acquisto completato
-                    Navigator.pushNamed(context, '/home');
+                    //Navigator.pushNamed(context, '/home');
+                    productsInShoppingCart.clear();
                   },
                   height: 50,
                   elevation: 0,
