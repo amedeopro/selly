@@ -38,7 +38,11 @@ class _HomePageState extends State<HomePage> {
               final bool show =
                   (state as ShowFidelityBlocStateValue).showFidelity;
               if (show) {
-                return floatingFidelity(context);
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  color: Colors.grey.shade100,
+                  child: floatingFidelity(context),
+                );
               } else {
                 return ShowFidelityButton();
               }
