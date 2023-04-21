@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selly/bloc/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,41 +10,48 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: appBar(),
-      body: Column(
-        children: [
-          email(),
-          SizedBox(
-            height: 20,
-          ),
-          password(),
-          SizedBox(
-            height: 10,
-          ),
-          loginButton(),
-          SizedBox(
-            height: 10,
-          ),
-          guestButton(),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Non ricordi la tua password",
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Non hai un account",
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            email(),
+            SizedBox(
+              height: 20,
+            ),
+            password(),
+            SizedBox(
+              height: 10,
+            ),
+            loginButton(),
+            SizedBox(
+              height: 10,
+            ),
+            guestButton(),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Non ricordi la tua password",
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Non hai un account",
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -69,9 +78,16 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: TextField(
+            child: TextFormField(
+              controller: emailController,
               decoration:
                   InputDecoration(border: InputBorder.none, hintText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Inserisci la tua e-mail';
+                }
+                return null;
+              },
             ),
           ),
         ),
@@ -86,9 +102,16 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: TextField(
+            child: TextFormField(
+              controller: passwordController,
               decoration: InputDecoration(
                   border: InputBorder.none, hintText: 'Password'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Inserisci la password';
+                }
+                return null;
+              },
             ),
           ),
         ),
@@ -98,7 +121,15 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: MaterialButton(
           onPressed: () {
-            Navigator.pushNamed(context, "/home");
+            //Navigator.pushNamed(context, "/home");
+            if (_formKey.currentState!.validate()) {
+              BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
+                  emailController.value.text, passwordController.value.text));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Controlla i campi')),
+              );
+            }
           },
           height: 50,
           elevation: 0,
@@ -119,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: MaterialButton(
           onPressed: () {
-            Navigator.pushNamed(context, "/home");
+            //Navigator.pushNamed(context, "/home");
           },
           height: 50,
           elevation: 0,

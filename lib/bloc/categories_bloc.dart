@@ -9,7 +9,7 @@ class CategoriesBloc extends Bloc<CategoriesBlocEvent, CategoriesBlocState> {
     on<CategoriesBlocEventInit>((event, emit) async {
       try {
         emit(CategoriesBlocStateLoading());
-        await await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         final categoriesList = await _apiRepository.fetchCategoryList();
         emit(CategoriesBlocStateLoaded(categoriesList as List<CategoryModel>));
       } catch (e) {

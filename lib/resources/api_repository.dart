@@ -16,4 +16,8 @@ class ApiRepository {
   Future fetchProductFromCategory(categoryId) {
     return _provider.fetchProductFromCategoryList(categoryId);
   }
+
+  Future login(email, password) {
+    return _provider.userLogin(email, password);
+  }
 }

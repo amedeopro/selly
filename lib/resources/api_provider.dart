@@ -3,14 +3,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:selly/model/category_model.dart';
 import 'package:selly/model/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider {
   final Dio _dio = Dio();
 
   Future fetchProductList() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
     try {
       Response response =
-          await _dio.get('${dotenv.env['API_BASE_URL']}products');
+          await _dio.get('${dotenv.env['API_BASE_URL']}products',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              }));
 
       print(response.data['products']);
 
@@ -107,6 +114,24 @@ class ApiProvider {
       }
 
       return productsFromApi;
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  Future userLogin(email, password) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      Response response = await _dio.post(
+          '${dotenv.env['API_BASE_URL']}auth/login',
+          data: {'email': email, 'password': password});
+
+      if (response.data['status']) {
+        //final token = response.data['token'].toString();
+        return response.data;
+      }
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return null;
