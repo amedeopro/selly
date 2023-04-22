@@ -10,6 +10,7 @@ import 'package:selly/components/floating_checkout_button.dart';
 import 'package:selly/components/floating_fidelity_button.dart';
 import 'package:selly/components/section_products.dart';
 import 'package:selly/components/show_fidelity_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,9 +18,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  userLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (!prefs.containsKey('token')) {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    userLoggedIn();
     BlocProvider.of<ShoppingCartBloc>(context).add(ShoppingCartBlocEventInit());
     BlocProvider.of<CategoriesBloc>(context).add(CategoriesBlocEventInit());
   }

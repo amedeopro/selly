@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:input_quantity/input_quantity.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/components/appbar.dart';
 import 'package:selly/components/floating_checkout_button.dart';
@@ -15,6 +16,8 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  int productQty = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +83,27 @@ class _ProductDetailsState extends State<ProductDetails> {
                 BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
                   builder: (context, state) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
                         children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: InputQty(
+                              initVal: productQty,
+                              minVal: 0,
+                              isIntrinsicWidth: true,
+                              borderShape: BorderShapeBtn.circle,
+                              boxDecoration: const BoxDecoration(),
+                              steps: 1,
+                              onQtyChanged: (val) {
+                                setState(() {
+                                  productQty = val!.toInt();
+                                });
+
+                                print(productQty);
+                              },
+                            ),
+                          ),
                           MaterialButton(
                             onPressed: () {
                               BlocProvider.of<ShoppingCartBloc>(context).add(

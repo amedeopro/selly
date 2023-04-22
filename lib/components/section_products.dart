@@ -45,87 +45,91 @@ Widget sectionProducts() =>
 
           final productsLoaded =
               (stateShopping as ShoppingCartBlocStateLoaded).products;
-
-          return GridView.builder(
-            padding: EdgeInsets.fromLTRB(16, show ? 125 : 95, 16, 100),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 3 / 5,
-            ),
-            itemCount: productsLoaded.length,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProductDetails(
-                              product: productsLoaded[index],
-                            )));
-              },
-              child: Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                productsLoaded[index].imageUrl.toString()),
-                            fit: BoxFit.cover,
+          if (productsLoaded != null) {
+            return GridView.builder(
+              padding: EdgeInsets.fromLTRB(16, show ? 125 : 95, 16, 100),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 3 / 5,
+              ),
+              itemCount: productsLoaded.length,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProductDetails(
+                                product: productsLoaded[index],
+                              )));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  productsLoaded[index].imageUrl.toString()),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      productsLoaded[index].name.toString(),
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "€ ${productsLoaded[index].price.toString()}",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey.shade600,
+                      SizedBox(
+                        height: 4,
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        BlocProvider.of<ShoppingCartBloc>(context).add(
-                            ShoppingCartBlocEventProductToggle(
-                                productsLoaded[index]));
-                      },
-                      minWidth: double.infinity,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: BorderSide(color: Colors.black12),
+                      Text(
+                        productsLoaded[index].name.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w500),
                       ),
-                      child: Text(productsLoaded[index].inShoppingCart
-                          ? "Rimuovi"
-                          : "Aggiungi"),
-                    )
-                  ],
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "€ ${productsLoaded[index].price.toString()}",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          BlocProvider.of<ShoppingCartBloc>(context).add(
+                              ShoppingCartBlocEventProductToggle(
+                                  productsLoaded[index]));
+                        },
+                        minWidth: double.infinity,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: BorderSide(color: Colors.black12),
+                        ),
+                        child: Text(productsLoaded[index].inShoppingCart
+                            ? "Rimuovi"
+                            : "Aggiungi"),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          } else {
+            Navigator.pushNamed(context, '/login');
+          }
+          return SizedBox();
         });
       }
     });

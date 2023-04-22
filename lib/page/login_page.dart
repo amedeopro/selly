@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/login_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,40 +20,48 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: appBar(),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            email(),
-            SizedBox(
-              height: 20,
+      body: BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
+        final loginState = (state as LoginBlocStateToken).status;
+        if (loginState) {
+          Navigator.pushNamed(context, '/home');
+        } else {
+          return Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                email(),
+                SizedBox(
+                  height: 20,
+                ),
+                password(),
+                SizedBox(
+                  height: 10,
+                ),
+                loginButton(),
+                SizedBox(
+                  height: 10,
+                ),
+                guestButton(),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Non ricordi la tua password",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Non hai un account",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
             ),
-            password(),
-            SizedBox(
-              height: 10,
-            ),
-            loginButton(),
-            SizedBox(
-              height: 10,
-            ),
-            guestButton(),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Non ricordi la tua password",
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Non hai un account",
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+        return SizedBox();
+      }),
     );
   }
 

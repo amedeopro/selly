@@ -19,6 +19,7 @@ class ApiProvider {
                 "Authorization": "Bearer $token",
               }));
 
+      //if (response.statusCode == 200) {
       print(response.data['products']);
 
       final data = response.data['products'];
@@ -27,9 +28,6 @@ class ApiProvider {
       final category = <int>[];
 
       for (var item in data) {
-        //print('ciclo prodotti: ${item['name']}');
-        //print(item['category']);
-
         if (item['category'] != null) {
           for (var cat in item['category']) {
             category.add(cat['id']);
@@ -49,6 +47,7 @@ class ApiProvider {
       }
 
       return productsFromApi;
+      //}
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return null;
