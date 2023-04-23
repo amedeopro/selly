@@ -4,11 +4,14 @@ import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:selly/components/appbar.dart';
+import 'package:selly/components/drawer.dart';
 import 'package:selly/model/product_model.dart';
 
 class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return BlocListener<ShoppingCartBloc, ShoppingCartBlocState>(
       listener: (context, state) {
         final products = (state as ShoppingCartBlocStateLoaded).products;
@@ -20,14 +23,17 @@ class CheckoutPage extends StatelessWidget {
         }
       },
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.grey.shade100,
-        appBar: appBar(title: "Checkout", subtitle: "", iconBack: true),
+        appBar: appBar(
+            title: "Checkout", subtitle: "", iconBack: true, context: context),
         body: CustomScrollView(
           slivers: [
             sectionProductList(),
             sectionCostRecap(),
           ],
         ),
+        drawer: drawer(context),
       ),
     );
   }

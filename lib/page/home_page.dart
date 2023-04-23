@@ -6,6 +6,7 @@ import 'package:selly/bloc/show_fidelity_bloc.dart';
 
 import 'package:selly/components/appbar.dart';
 import 'package:selly/components/categories.dart';
+import 'package:selly/components/drawer.dart';
 import 'package:selly/components/floating_checkout_button.dart';
 import 'package:selly/components/floating_fidelity_button.dart';
 import 'package:selly/components/section_products.dart';
@@ -18,6 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   userLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -37,8 +40,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey.shade100,
-      appBar: appBar(title: "", subtitle: "", iconBack: false),
+      appBar: appBar(
+          title: "", subtitle: "", iconBack: false, scaffoldKey: _scaffoldKey),
       body: Stack(
         children: [
           sectionProducts(),
@@ -61,6 +66,7 @@ class _HomePageState extends State<HomePage> {
           categories()
         ],
       ),
+      drawer: drawer(context),
     );
   }
 }

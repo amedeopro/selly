@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:input_quantity/input_quantity.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/components/appbar.dart';
+import 'package:selly/components/drawer.dart';
 import 'package:selly/components/floating_checkout_button.dart';
 import 'package:selly/model/product_model.dart';
 
@@ -17,10 +18,12 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int productQty = 1;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -130,6 +133,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           )
         ],
       ),
+      //drawer: drawer(context),
     );
   }
 }
