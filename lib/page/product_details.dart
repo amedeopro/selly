@@ -96,9 +96,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                               boxDecoration: const BoxDecoration(),
                               steps: 1,
                               onQtyChanged: (val) {
-                                setState(() {
-                                  productQty = val!.toInt();
-                                });
+                                //setState(() {
+                                productQty = val!.toInt();
+                                //});
 
                                 print(productQty);
                               },
@@ -108,7 +108,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             onPressed: () {
                               BlocProvider.of<ShoppingCartBloc>(context).add(
                                   ShoppingCartBlocEventProductToggle(
-                                      widget.product));
+                                      widget.product, productQty));
                             },
                             minWidth: double.infinity,
                             shape: RoundedRectangleBorder(

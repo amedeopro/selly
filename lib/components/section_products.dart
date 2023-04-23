@@ -110,7 +110,7 @@ Widget sectionProducts() =>
                         onPressed: () {
                           BlocProvider.of<ShoppingCartBloc>(context).add(
                               ShoppingCartBlocEventProductToggle(
-                                  productsLoaded[index]));
+                                  productsLoaded[index], 1));
                         },
                         minWidth: double.infinity,
                         shape: RoundedRectangleBorder(

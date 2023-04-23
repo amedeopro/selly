@@ -47,7 +47,7 @@ class CheckoutPage extends StatelessWidget {
                       onDismissed: (direction) {
                         BlocProvider.of<ShoppingCartBloc>(context).add(
                             ShoppingCartBlocEventProductToggle(
-                                products[index]));
+                                products[index], products[index].quantity));
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
@@ -67,7 +67,7 @@ class CheckoutPage extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
-                              "€ ${productsInShoppingCart[index].price} x ${productsInShoppingCart[index].quantity}"),
+                              "€ ${productsInShoppingCart[index].price.toStringAsFixed(2)} x ${productsInShoppingCart[index].quantity}"),
                           trailing: SizedBox()),
                     ),
                   ),
@@ -82,9 +82,9 @@ class CheckoutPage extends StatelessWidget {
         final productsInShoppingCart =
             products.where((it) => it.inShoppingCart).toList();
 
-        final subtotal = productsInShoppingCart.map((it) => it.price).sum;
+        final subtotal = productsInShoppingCart.map((it) => it.total).sum;
         final fidelityPoints =
-            productsInShoppingCart.map((it) => it.fidelityPoint).sum;
+            productsInShoppingCart.map((it) => it.fidelityTotal).sum;
         final tax = subtotal * 0.22;
         final total = subtotal + tax;
 

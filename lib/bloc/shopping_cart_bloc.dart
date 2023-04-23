@@ -25,6 +25,9 @@ class ShoppingCartBloc
           products.firstWhere((it) => it.name == event.product.name);
 
       product.inShoppingCart = !product.inShoppingCart;
+      product.quantity = event.qty;
+      product.total = event.qty * product.price;
+      product.fidelityTotal = product.fidelityPoint * event.qty;
 
       emit(ShoppingCartBlocStateLoaded(products));
     });
@@ -60,7 +63,8 @@ class ShoppingCartBlocEventInit extends ShoppingCartBlocEvent {}
 
 class ShoppingCartBlocEventProductToggle extends ShoppingCartBlocEvent {
   final ProductModel product;
-  ShoppingCartBlocEventProductToggle(this.product);
+  final int qty;
+  ShoppingCartBlocEventProductToggle(this.product, this.qty);
 }
 
 class ShoppingCartBlocEventProductDelete extends ShoppingCartBlocEvent {}

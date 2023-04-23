@@ -9,17 +9,20 @@ class ProductModel {
   final List<int> categoryId;
   bool inShoppingCart;
   int quantity;
+  int fidelityTotal;
+  int total;
 
-  ProductModel({
-    required this.imageUrl,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.fidelityPoint,
-    required this.categoryId,
-    this.inShoppingCart = false,
-    this.quantity = 1,
-  });
+  ProductModel(
+      {required this.imageUrl,
+      required this.name,
+      required this.description,
+      required this.price,
+      required this.fidelityPoint,
+      required this.categoryId,
+      this.inShoppingCart = false,
+      this.quantity = 1,
+      this.fidelityTotal = 0,
+      this.total = 0});
 }
 
 /*final products = [
