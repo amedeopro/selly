@@ -9,6 +9,7 @@ import 'package:selly/components/categories.dart';
 import 'package:selly/components/drawer.dart';
 import 'package:selly/components/floating_checkout_button.dart';
 import 'package:selly/components/floating_fidelity_button.dart';
+import 'package:selly/components/home_carousel.dart';
 import 'package:selly/components/section_products.dart';
 import 'package:selly/components/show_fidelity_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,7 +64,8 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
-          categories()
+          categories(),
+          //HomeCarousel()
         ],
       ),
       drawer: drawer(context),
