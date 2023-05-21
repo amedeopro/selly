@@ -8,7 +8,8 @@ import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:selly/page/login_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:selly/page/my_orders_list.dart';
+import 'package:selly/page/welcome_page.dart';
 
 import 'bloc/show_fidelity_bloc.dart';
 
@@ -48,11 +49,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      initialRoute: "/home",
+      initialRoute: "/",
       routes: {
+        "/": (_) => WelcomePage(),
         "/login": (_) => LoginPage(),
         "/home": (_) => HomePage(),
         "/checkout": (_) => CheckoutPage(),
+        "/orders": (_) => MyOrdersList()
       },
     );
   }

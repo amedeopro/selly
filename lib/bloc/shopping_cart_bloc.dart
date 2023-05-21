@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/model/product_model.dart';
 import 'package:selly/resources/api_repository.dart';
@@ -14,7 +15,13 @@ class ShoppingCartBloc
         final products = await _apiRepository.fetchProductList();
         emit(ShoppingCartBlocStateLoaded(products as List<ProductModel>));
       } catch (e) {
-        print(e);
+        //print(e);
+        //print('ERRORE BLOC');
+        Navigator.pushNamed(
+          event.context,
+          '/login',
+        );
+
         return;
       }
     });
@@ -59,7 +66,10 @@ class ShoppingCartBloc
 
 abstract class ShoppingCartBlocEvent {}
 
-class ShoppingCartBlocEventInit extends ShoppingCartBlocEvent {}
+class ShoppingCartBlocEventInit extends ShoppingCartBlocEvent {
+  BuildContext context;
+  ShoppingCartBlocEventInit(this.context);
+}
 
 class ShoppingCartBlocEventProductToggle extends ShoppingCartBlocEvent {
   final ProductModel product;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/login_bloc.dart';
+import 'package:selly/page/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +16,25 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  userLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.containsKey('token')) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    userLoggedIn();
+    //BlocProvider.of<LoginBloc>(context).add(UserLoggedIn());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
       appBar: appBar(),
       body: BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
         final loginState = (state as LoginBlocStateToken).status;
-        if (loginState) {
+        print('loginState: $loginState');
+
+        if (loginState == "true") {
           Navigator.pushNamed(context, '/home');
         } else {
           return Form(

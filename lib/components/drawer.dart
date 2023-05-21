@@ -31,13 +31,14 @@ Drawer drawer(context) => Drawer(
             ),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            title: const Text('I miei ordini'),
             onTap: () {
+              Navigator.pushNamed(context, "/orders");
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
+            title: const Text('Catalogo premi'),
             onTap: () {
               // Update the state of the app
               // ...

@@ -3,7 +3,7 @@ import 'package:selly/resources/api_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
-  LoginBloc() : super(LoginBlocStateToken('', false)) {
+  LoginBloc() : super(LoginBlocStateToken('', "false")) {
     final ApiRepository _apiRepository = ApiRepository();
 
     on<LoginSubmitEvent>((event, emit) async {
@@ -16,13 +16,21 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
         print(login['token']);
 
         await prefs.setString('token', login['token'].toString());
+        await prefs.setString('status', login['status'].toString());
 
-        emit(LoginBlocStateToken(login['token'].toString(), login['status']));
+        emit(LoginBlocStateToken(
+            login['token'].toString(), login['status'].toString()));
       } catch (e) {
         print(e);
-
         return;
       }
+    });
+
+    on<UserLoggedIn>((event, emit) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      emit(LoginBlocStateToken(prefs.getString('token').toString(),
+          prefs.getString('status').toString()));
     });
   }
 }
@@ -35,10 +43,12 @@ class LoginSubmitEvent extends LoginBlocEvent {
   LoginSubmitEvent(this.email, this.password);
 }
 
+class UserLoggedIn extends LoginBlocEvent {}
+
 abstract class LoginBlocState {}
 
 class LoginBlocStateToken extends LoginBlocState {
   String token;
-  bool status;
+  String status;
   LoginBlocStateToken(this.token, this.status);
 }

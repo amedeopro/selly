@@ -12,6 +12,7 @@ import 'package:selly/components/floating_fidelity_button.dart';
 import 'package:selly/components/home_carousel.dart';
 import 'package:selly/components/section_products.dart';
 import 'package:selly/components/show_fidelity_button.dart';
+import 'package:selly/page/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +27,11 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (!prefs.containsKey('token')) {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (Route<dynamic> route) => false,
+      );
     }
   }
 
@@ -34,7 +39,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     userLoggedIn();
-    BlocProvider.of<ShoppingCartBloc>(context).add(ShoppingCartBlocEventInit());
+    BlocProvider.of<ShoppingCartBloc>(context)
+        .add(ShoppingCartBlocEventInit(context));
     BlocProvider.of<CategoriesBloc>(context).add(CategoriesBlocEventInit());
   }
 

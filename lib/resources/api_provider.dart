@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:selly/model/category_model.dart';
 import 'package:selly/model/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
 
 class ApiProvider {
   final Dio _dio = Dio();
@@ -50,6 +52,7 @@ class ApiProvider {
       //}
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
+
       return null;
     }
   }
@@ -127,8 +130,16 @@ class ApiProvider {
           '${dotenv.env['API_BASE_URL']}auth/login',
           data: {'email': email, 'password': password});
 
-      if (response.data['status']) {
+      if (response.data['status'].toString() == 'true') {
         //final token = response.data['token'].toString();
+        Fluttertoast.showToast(
+            msg: "Login avvenuto con successo",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         return response.data;
       }
     } catch (error, stacktrace) {
