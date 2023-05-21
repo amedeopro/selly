@@ -15,14 +15,14 @@ class ShoppingCartBloc
         final products = await _apiRepository.fetchProductList();
         emit(ShoppingCartBlocStateLoaded(products as List<ProductModel>));
       } catch (e) {
-        //print(e);
+        print(e);
         //print('ERRORE BLOC');
-        Navigator.pushNamed(
+        /*Navigator.pushNamed(
           event.context,
           '/login',
-        );
+        );*/
 
-        return;
+        //return;
       }
     });
 

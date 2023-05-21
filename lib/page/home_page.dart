@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  userLoggedIn() async {
+  /*userLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (!prefs.containsKey('token')) {
@@ -33,12 +33,12 @@ class _HomePageState extends State<HomePage> {
         (Route<dynamic> route) => false,
       );
     }
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    userLoggedIn();
+    //userLoggedIn();
     BlocProvider.of<ShoppingCartBloc>(context)
         .add(ShoppingCartBlocEventInit(context));
     BlocProvider.of<CategoriesBloc>(context).add(CategoriesBlocEventInit());

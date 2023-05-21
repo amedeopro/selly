@@ -4,6 +4,8 @@ import 'package:selly/bloc/login_bloc.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../resources/api_provider.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -16,23 +18,12 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  userLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (prefs.containsKey('token')) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-        (Route<dynamic> route) => false,
-      );
-    }
-  }
+  final _provider = ApiProvider();
 
   @override
   void initState() {
     super.initState();
-    userLoggedIn();
-    //BlocProvider.of<LoginBloc>(context).add(UserLoggedIn());
+    _provider.checkIfUserIsLogged(context);
   }
 
   @override
@@ -41,12 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.grey.shade100,
       appBar: appBar(),
       body: BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
-        final loginState = (state as LoginBlocStateToken).status;
-        print('loginState: $loginState');
 
-        if (loginState == "true") {
-          Navigator.pushNamed(context, '/home');
-        } else {
           return Form(
             key: _formKey,
             child: Column(
@@ -81,8 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           );
-        }
-        return SizedBox();
+
       }),
     );
   }
