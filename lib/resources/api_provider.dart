@@ -140,6 +140,7 @@ class ApiProvider {
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 16.0);
+
         return response.data;
       }
     } catch (error, stacktrace) {
@@ -151,6 +152,26 @@ class ApiProvider {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+    }
+  }
+
+  Future userLogout() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    try {
+      Response response =
+      await _dio.get('${dotenv.env['API_BASE_URL']}products',
+          options: Options(headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          }));
+
+      print(response.data);
+
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+
+      return null;
     }
   }
 

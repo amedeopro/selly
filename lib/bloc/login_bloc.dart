@@ -11,7 +11,7 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
       try {
         final login = await _apiRepository.login(event.email, event.password);
 
-        print(login);
+        print('risultato login: $login');
         print(login['status']);
         print(login['token']);
 
@@ -21,6 +21,7 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
         emit(LoginBlocStateToken(
             login['token'].toString(), login['status'].toString()));
       } catch (e) {
+        await prefs.setString('status', 'false');
         print(e);
         return;
       }

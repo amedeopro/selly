@@ -32,42 +32,40 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.grey.shade100,
       appBar: appBar(),
       body: BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
-
-          return Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                email(),
-                SizedBox(
-                  height: 20,
-                ),
-                password(),
-                SizedBox(
-                  height: 10,
-                ),
-                loginButton(),
-                SizedBox(
-                  height: 10,
-                ),
-                guestButton(),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Non ricordi la tua password",
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Non hai un account",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          );
-
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              email(),
+              SizedBox(
+                height: 20,
+              ),
+              password(),
+              SizedBox(
+                height: 10,
+              ),
+              loginButton(),
+              SizedBox(
+                height: 10,
+              ),
+              guestButton(),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Non ricordi la tua password",
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Non hai un account",
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        );
       }),
     );
   }
@@ -133,34 +131,57 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  Widget loginButton() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: MaterialButton(
-          onPressed: () {
-            //Navigator.pushNamed(context, "/home");
-            if (_formKey.currentState!.validate()) {
-              BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
-                  emailController.value.text, passwordController.value.text));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Controlla i campi')),
-              );
-            }
-          },
-          height: 50,
-          elevation: 0,
-          minWidth: double.infinity,
-          color: Colors.yellow.shade700,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+  Widget loginButton() => BlocBuilder<LoginBloc, LoginBlocState>(
+    builder: (context, state) {
+      var status = (state as LoginBlocStateToken).status;
+      if (status == 'true') {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        });
+
+          return SizedBox(
+            width: 10,
+            height: 10,
+          );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: MaterialButton(
+            onPressed: () async {
+              final SharedPreferences prefs =
+              await SharedPreferences.getInstance();
+              //Navigator.pushNamed(context, "/home");
+              if (_formKey.currentState!.validate()) {
+                BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
+                    emailController.value.text, passwordController.value.text));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Controlla i campi')),
+                );
+              }
+            },
+            height: 50,
+            elevation: 0,
+            minWidth: double.infinity,
+            color: Colors.yellow.shade700,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              "Login",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
           ),
-          child: Text(
-            "Login",
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
-      );
+        );
+      }
+    }
+  );
 
   Widget guestButton() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
