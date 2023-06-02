@@ -160,7 +160,7 @@ class ApiProvider {
     final String token = prefs.getString('token') ?? "";
     try {
       Response response =
-      await _dio.get('${dotenv.env['API_BASE_URL']}products',
+      await _dio.post('${dotenv.env['API_BASE_URL']}auth/logout',
           options: Options(headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
@@ -170,7 +170,7 @@ class ApiProvider {
 
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-
+      print('Qual\'cosa é andato storto! ');
       return null;
     }
   }
@@ -180,34 +180,34 @@ class ApiProvider {
     final String token = prefs.getString('token') ?? "";
 
     print('checkIfUserIsLogged token: $token');
+      try {
 
-    try {
+        print('checkIfUserIsLogged url: ${dotenv.env['API_BASE_URL']}auth/checktoken');
 
-      print('checkIfUserIsLogged url: ${dotenv.env['API_BASE_URL']}auth/checktoken');
+        Response response =
+        await _dio.post('${dotenv.env['API_BASE_URL']}auth/checktoken',
+            options: Options(headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token",
+            }));
 
-      Response response =
-      await _dio.post('${dotenv.env['API_BASE_URL']}auth/checktoken',
-          options: Options(headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          }));
+        print('checkIfUserIsLogged response: $response');
+        print('checkIfUserIsLogged statuscode: ${response.statusCode}');
 
-      print('checkIfUserIsLogged response: $response');
-      print('checkIfUserIsLogged statuscode: ${response.statusCode}');
+        if (response.statusCode == 200) {
+          Navigator.pushNamed(context, '/home');
+        }
 
-      if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/home');
+      } catch (error, stacktrace) {
+        Fluttertoast.showToast(
+            msg: "Devi effettuare il login",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.black,
+            fontSize: 16.0);
       }
 
-    } catch (error, stacktrace) {
-      Fluttertoast.showToast(
-          msg: "Devi effettuare il login",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.orange,
-          textColor: Colors.black,
-          fontSize: 16.0);
-    }
   }
 }

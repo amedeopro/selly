@@ -15,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  bool _isPasswordVisible = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -118,8 +119,21 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.only(left: 20),
             child: TextFormField(
               controller: passwordController,
+              obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
-                  border: InputBorder.none, hintText: 'Password'),
+                border: InputBorder.none,
+                hintText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Inserisci la password';
@@ -131,57 +145,57 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  Widget loginButton() => BlocBuilder<LoginBloc, LoginBlocState>(
-    builder: (context, state) {
-      var status = (state as LoginBlocStateToken).status;
-      if (status == 'true') {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        });
+  Widget loginButton() =>
+      BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
+        var status = (state as LoginBlocStateToken).status;
+        if (status == 'true') {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          });
 
           return SizedBox(
             width: 10,
             height: 10,
           );
-      } else {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: MaterialButton(
-            onPressed: () async {
-              final SharedPreferences prefs =
-              await SharedPreferences.getInstance();
-              //Navigator.pushNamed(context, "/home");
-              if (_formKey.currentState!.validate()) {
-                BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
-                    emailController.value.text, passwordController.value.text));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Controlla i campi')),
-                );
-              }
-            },
-            height: 50,
-            elevation: 0,
-            minWidth: double.infinity,
-            color: Colors.yellow.shade700,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: MaterialButton(
+              onPressed: () async {
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                //Navigator.pushNamed(context, "/home");
+                if (_formKey.currentState!.validate()) {
+                  BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
+                      emailController.value.text,
+                      passwordController.value.text));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Controlla i campi')),
+                  );
+                }
+              },
+              height: 50,
+              elevation: 0,
+              minWidth: double.infinity,
+              color: Colors.yellow.shade700,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                "Login",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             ),
-            child: Text(
-              "Login",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
-        );
-      }
-    }
-  );
+          );
+        }
+      });
 
   Widget guestButton() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
