@@ -21,10 +21,26 @@ class _LoginPageState extends State<LoginPage> {
 
   final _provider = ApiProvider();
 
+  Future<void> getToken() async{
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token;
+    await Future.delayed(Duration.zero, () {
+      return SharedPreferences.getInstance().then((prefs) {
+        return token = prefs.getString('token').toString();
+      });
+    });
+
+    print('token in getToken: $token');
+
+    if(token != ""){
+      _provider.checkIfUserIsLogged(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _provider.checkIfUserIsLogged(context);
+    getToken();
   }
 
   @override
