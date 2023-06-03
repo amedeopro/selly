@@ -46,8 +46,7 @@ Drawer drawer(BuildContext context) => Drawer(
             ListTile(
               title: const Text('I miei ordini'),
               onTap: () {
-                Navigator.pushNamed(context, "/orders");
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(context, "/orders", (route) => false);
               },
             ),
             ListTile(

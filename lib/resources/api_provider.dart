@@ -161,14 +161,13 @@ class ApiProvider {
     final String token = prefs.getString('token') ?? "";
     try {
       Response response =
-      await _dio.post('${dotenv.env['API_BASE_URL']}auth/logout',
-          options: Options(headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          }));
+          await _dio.post('${dotenv.env['API_BASE_URL']}auth/logout',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              }));
 
       print(response.data);
-
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       print('Qual\'cosa é andato storto! ');
@@ -181,45 +180,49 @@ class ApiProvider {
     final String token = prefs.getString('token') ?? "";
 
     print('checkIfUserIsLogged token: $token');
-      try {
+    try {
+      print(
+          'checkIfUserIsLogged url: ${dotenv.env['API_BASE_URL']}auth/checktoken');
 
-        print('checkIfUserIsLogged url: ${dotenv.env['API_BASE_URL']}auth/checktoken');
+      Response response =
+          await _dio.post('${dotenv.env['API_BASE_URL']}auth/checktoken',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              }));
 
-        Response response =
-        await _dio.post('${dotenv.env['API_BASE_URL']}auth/checktoken',
-            options: Options(headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $token",
-            }));
+      print('checkIfUserIsLogged response: $response');
+      print('checkIfUserIsLogged statuscode: ${response.statusCode}');
 
-        print('checkIfUserIsLogged response: $response');
-        print('checkIfUserIsLogged statuscode: ${response.statusCode}');
-
-        if (response.statusCode == 200) {
-          Navigator.pushNamed(context, '/home');
-        }
-
-      } catch (error, stacktrace) {
-        Fluttertoast.showToast(
-            msg: "Devi effettuare il login",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.orange,
-            textColor: Colors.black,
-            fontSize: 16.0);
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/home');
       }
-
+    } catch (error, stacktrace) {
+      Fluttertoast.showToast(
+          msg: "Devi effettuare il login",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    }
   }
 
   Future fetchOrderByUser(userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
     try {
-      Response response = await _dio
-          .get('${dotenv.env['API_BASE_URL']}orders/user/$userId');
+      Response response =
+          await _dio.get('${dotenv.env['API_BASE_URL']}orders/user/$userId',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              }));
 
-      print(response.data['order']);
+      print(response.data['order_by_user']);
 
-      final data = response.data['order'];
+      final data = response.data['order_by_user'];
 
       List<OrderModel> ordersFromApi = [];
       final products = <ProductModel>[];
@@ -227,21 +230,20 @@ class ApiProvider {
       for (var item in data) {
         if (item['products'] != null) {
           for (var ord in item['products']) {
-            products.add(
-                ProductModel(
-                  imageUrl: ord['imageUrl'],
-                  name: ord['name'],
-                  description: ord['description'],
-                  price: ord['price'],
-                  fidelityPoint: ord['fidelity_point'],
-                  categoryId: [],
-                )
-            );
+            products.add(ProductModel(
+              imageUrl: ord['imageUrl'],
+              name: ord['name'],
+              description: ord['description'],
+              price: ord['price'],
+              fidelityPoint: ord['fidelity_point'],
+              categoryId: [],
+            ));
           }
         }
 
         ordersFromApi.add(
           OrderModel(
+            id: item['id'],
             shipment: item['shipment'],
             created_at: item['created_at'],
             products: products,

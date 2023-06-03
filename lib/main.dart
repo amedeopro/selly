@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:selly/bloc/categories_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/login_bloc.dart';
+import 'package:selly/bloc/orders_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
@@ -23,6 +24,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => ShowFidelityBloc(),
+        ),
+        BlocProvider(
+          create: (_) => OrderBloc(),
         ),
         BlocProvider(
           create: (_) => FidelityPointsBloc(),
