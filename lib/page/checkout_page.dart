@@ -26,14 +26,23 @@ class CheckoutPage extends StatelessWidget {
         key: _scaffoldKey,
         backgroundColor: Colors.grey.shade100,
         appBar: appBar(
-            title: "Checkout", subtitle: "", iconBack: true, context: context),
+          title: 'Checkout',
+          subtitle: "",
+          iconBack: true,
+          scaffoldKey: null,
+          scf_context: context,
+          return_to_home: true,
+          onPressed: (){
+            Navigator.pop(context);
+          }
+        ),
         body: CustomScrollView(
           slivers: [
             sectionProductList(),
             sectionCostRecap(),
           ],
         ),
-        drawer: drawer(context),
+        //drawer: drawer(context),
       ),
     );
   }

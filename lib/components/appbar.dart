@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar appBar({title, subtitle, iconBack, scaffoldKey, context, scf_context, return_to_home}) => AppBar(
+AppBar appBar({title, subtitle, iconBack, scaffoldKey,scf_context, return_to_home, onPressed}) => AppBar(
       key: scaffoldKey != null ? Key('appBarWithDrawer') : null,
       automaticallyImplyLeading: iconBack,
       iconTheme: iconBack ? IconThemeData(color: Colors.black) : null,
@@ -12,7 +12,7 @@ AppBar appBar({title, subtitle, iconBack, scaffoldKey, context, scf_context, ret
           scaffoldKey != null ? Icons.menu : Icons.arrow_back,
           color: Colors.black,
         ),
-        onPressed: () {
+        onPressed: onPressed == null ? () {
           if (scaffoldKey != null) {
             scaffoldKey.currentState?.openDrawer();
           } else {
@@ -22,7 +22,7 @@ AppBar appBar({title, subtitle, iconBack, scaffoldKey, context, scf_context, ret
               Navigator.pop(scf_context);
             }
           }
-        },
+        } : onPressed,
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
