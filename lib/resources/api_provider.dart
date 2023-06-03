@@ -246,6 +246,7 @@ class ApiProvider {
             id: item['id'],
             shipment: item['shipment'],
             created_at: item['created_at'],
+            total: item['total'],
             products: products,
           ),
         );

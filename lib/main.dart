@@ -9,6 +9,7 @@ import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:selly/page/login_page.dart';
+import 'package:selly/page/my_order_details.dart';
 import 'package:selly/page/my_orders_list.dart';
 import 'package:selly/page/welcome_page.dart';
 
@@ -59,7 +60,8 @@ class MyApp extends StatelessWidget {
         "/login": (_) => LoginPage(),
         "/home": (_) => HomePage(),
         "/checkout": (_) => CheckoutPage(),
-        "/orders": (_) => MyOrdersList()
+        "/orders": (_) => MyOrdersList(),
+        "/orders/details": (_) => MyOrderDetails()
       },
     );
   }

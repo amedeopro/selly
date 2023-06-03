@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-AppBar appBar({title, subtitle, iconBack, scaffoldKey, context}) => AppBar(
+AppBar appBar({title, subtitle, iconBack, scaffoldKey, context, scf_context, return_to_home}) => AppBar(
+      key: scaffoldKey != null ? Key('appBarWithDrawer') : null,
       automaticallyImplyLeading: iconBack,
       iconTheme: iconBack ? IconThemeData(color: Colors.black) : null,
       backgroundColor: Colors.transparent,
@@ -15,7 +16,11 @@ AppBar appBar({title, subtitle, iconBack, scaffoldKey, context}) => AppBar(
           if (scaffoldKey != null) {
             scaffoldKey.currentState?.openDrawer();
           } else {
-            Navigator.pop(context);
+            if(return_to_home){
+             Navigator.pushNamedAndRemoveUntil(scf_context, '/home', (route) => false);
+            } else {
+              Navigator.pop(scf_context);
+            }
           }
         },
       ),
