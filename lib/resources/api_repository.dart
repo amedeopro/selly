@@ -21,4 +21,8 @@ class ApiRepository {
   Future login(email, password) {
     return _provider.userLogin(email, password);
   }
+
+  Future fetchOrderByUser(userId) {
+    return _provider.fetchOrderByUser(userId);
+  }
 }

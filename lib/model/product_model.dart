@@ -12,8 +12,8 @@ class ProductModel {
   int fidelityTotal;
   int total;
 
-  ProductModel(
-      {required this.imageUrl,
+  ProductModel({
+      required this.imageUrl,
       required this.name,
       required this.description,
       required this.price,
@@ -22,7 +22,8 @@ class ProductModel {
       this.inShoppingCart = false,
       this.quantity = 1,
       this.fidelityTotal = 0,
-      this.total = 0});
+      this.total = 0
+  });
 }
 
 /*final products = [

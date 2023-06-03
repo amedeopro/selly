@@ -17,6 +17,8 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
 
         await prefs.setString('token', login['token'].toString());
         await prefs.setString('status', login['status'].toString());
+        await prefs.setString('user_id', login['user_id'].toString());
+        await prefs.setString('user_name', login['user_name'].toString());
 
         emit(LoginBlocStateToken(
             login['token'].toString(), login['status'].toString()));

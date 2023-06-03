@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:selly/model/category_model.dart';
+import 'package:selly/model/order_model.dart';
 import 'package:selly/model/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -209,5 +210,49 @@ class ApiProvider {
             fontSize: 16.0);
       }
 
+  }
+
+  Future fetchOrderByUser(userId) async {
+    try {
+      Response response = await _dio
+          .get('${dotenv.env['API_BASE_URL']}orders/user/$userId');
+
+      print(response.data['order']);
+
+      final data = response.data['order'];
+
+      List<OrderModel> ordersFromApi = [];
+      final products = <ProductModel>[];
+
+      for (var item in data) {
+        if (item['products'] != null) {
+          for (var ord in item['products']) {
+            products.add(
+                ProductModel(
+                  imageUrl: ord['imageUrl'],
+                  name: ord['name'],
+                  description: ord['description'],
+                  price: ord['price'],
+                  fidelityPoint: ord['fidelity_point'],
+                  categoryId: [],
+                )
+            );
+          }
+        }
+
+        ordersFromApi.add(
+          OrderModel(
+            shipment: item['shipment'],
+            created_at: item['created_at'],
+            products: products,
+          ),
+        );
+      }
+
+      return ordersFromApi;
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
   }
 }
