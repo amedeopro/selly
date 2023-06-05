@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:selly/page/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../resources/api_provider.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -9,6 +12,29 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+
+  final _provider = ApiProvider();
+
+  Future<void> getToken() async{
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token;
+    await Future.delayed(Duration.zero, () {
+      return SharedPreferences.getInstance().then((prefs) {
+        return token = prefs.getString('token').toString();
+      });
+    });
+    if(token != ""){
+      _provider.checkIfUserIsLogged(context);
+    } else {
+      Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          )
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,10 +81,14 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
         ),
-        onPressed: () => Navigator.of(context).push(
+        onPressed: () async{
+          /*Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const LoginPage(),
-          ),
-        ),
+          )*/
+
+          await getToken();
+
+        },
       );
 }

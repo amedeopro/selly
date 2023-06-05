@@ -198,6 +198,8 @@ class ApiProvider {
         Navigator.pushNamed(context, '/home');
       }
     } catch (error, stacktrace) {
+
+      Navigator.pushNamed(context, '/login');
       Fluttertoast.showToast(
           msg: "Devi effettuare il login",
           toastLength: Toast.LENGTH_SHORT,
