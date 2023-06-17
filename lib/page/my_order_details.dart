@@ -1,8 +1,14 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/components/appbar.dart';
 import 'package:selly/components/drawer.dart';
 import 'package:selly/model/order_model.dart';
 import 'package:selly/model/product_model.dart';
+
+import '../components/floating_checkout_button.dart';
 
 class MyOrderDetails extends StatefulWidget {
   OrderModel? order = OrderModel(
@@ -17,7 +23,8 @@ class MyOrderDetails extends StatefulWidget {
             description: '',
             price: 0,
             fidelityPoint: 0,
-            categoryId: [0])
+            quantity: 0,
+            categoryId: [0]),
       ]);
 
   MyOrderDetails({this.order});
@@ -29,8 +36,11 @@ class MyOrderDetails extends StatefulWidget {
 class _MyOrderDetailsState extends State<MyOrderDetails> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool reordering = false;
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: appBar(
             title: 'Ordine n. ${widget.order!.id}',
@@ -41,54 +51,72 @@ class _MyOrderDetailsState extends State<MyOrderDetails> {
             return_to_home: false
         ),
         drawer: drawer(context),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.order!.products.length,
-                itemBuilder: (context, index) {
-                  //TODO: mancano le quantitá dei prodotti acquistati PD
-                  return ListTile(
-                    title: Text(widget.order!.products[index].name),
-                    trailing:
-                        Text(widget.order!.products[index].quantity.toString()),
-                    subtitle:
-                        Text('€ ${widget.order!.products[index].total} cad.'),
-                  );
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              child: Text(
-                'Totale ordine (spese di spedizione incluse): ',
-                style: TextStyle(fontWeight: FontWeight.w400),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Text(
-                '€ ${widget.order!.total}',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
+        body: BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: widget.order!.products.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(widget.order!.products[index].name),
+                        trailing:
+                            Text(widget.order!.products[index].quantity.toString()),
+                        subtitle:
+                            Text('€ ${widget.order!.products[index].price} cad.'),
+                      );
+                    },
                   ),
-                  backgroundColor: Colors.green,
                 ),
-                child: Text('Riordina'),
-              ),
-            ),
-          ],
+                floatingCheckoutButton(),
+                SizedBox(height: 10,),
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Totale ordine (spese di spedizione e tasse incluse): ',
+                    style: TextStyle(fontWeight: FontWeight.w400),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'Totale € ${widget.order!.total}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      for(var item in widget.order!.products){
+                        BlocProvider.of<ShoppingCartBloc>(context).add(
+                            ShoppingCartBlocEventProductToggle(
+                                item, item.quantity));
+                      }
+
+                      setState(() {
+                        reordering = !reordering;
+                      });
+
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                    child: Text(reordering
+                        ? "Annulla Riordino"
+                        : "Riordina"),
+                  ),
+                ),
+              ],
+            );
+          }
         ));
   }
 }

@@ -238,6 +238,7 @@ class ApiProvider {
               description: ord['description'],
               price: ord['price'],
               fidelityPoint: ord['fidelity_point'],
+              quantity: ord['quantity'],
               categoryId: [],
             ));
           }
