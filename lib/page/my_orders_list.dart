@@ -22,6 +22,9 @@ class _MyOrdersListState extends State<MyOrdersList> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  DateTime now = DateTime.now();
+ 
+
   getOrderList() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var userId = _prefs.getString('user_id').toString();
@@ -55,6 +58,10 @@ class _MyOrdersListState extends State<MyOrdersList> {
           return ListView.builder(
               itemCount: ordersLoaded.length,
               itemBuilder: (context, index) {
+                DateTime date = DateTime.parse(ordersLoaded[index].created_at);
+
+                DateTime dateUTC = date.toUtc().add(Duration(hours: 2));
+
                 return ListTile(
                   leading: Container(
                     decoration: BoxDecoration(
@@ -68,7 +75,7 @@ class _MyOrdersListState extends State<MyOrdersList> {
                     ),
                   ),
                   title: Text('Ordine n. ${ordersLoaded[index].id.toString()}'),
-                  subtitle: Text('del ${ordersLoaded[index].created_at}'),
+                  subtitle: Text('del ${DateFormat('dd-MM-yyyy HH:mm').format(dateUTC)}'),
                   trailing: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
