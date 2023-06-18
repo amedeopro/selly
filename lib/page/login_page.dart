@@ -64,7 +64,10 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 TextButton(
-                  onPressed: (){
+                  onPressed: () async{
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    print('Status da login_page: ');
+                    print(prefs.getString('status'));
                     Navigator.pushNamed(context, '/registration');
                   },
                   child: Text("Non hai un account",style: TextStyle(fontSize: 16),),

@@ -33,7 +33,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       backgroundColor: Colors.grey.shade100,
       appBar: appBar(),
       body: SingleChildScrollView(
-        child: BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
+        child: BlocBuilder<RegistrationBloc, RegistrationBlocState>(builder: (context, state) {
           return Form(
             key: _formKey,
             child: Column(
