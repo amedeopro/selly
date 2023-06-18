@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:selly/model/category_model.dart';
+import 'package:selly/model/order_model.dart';
 import 'package:selly/model/product_model.dart';
 import 'api_provider.dart';
 
@@ -28,5 +29,9 @@ class ApiRepository {
 
   Future fetchOrderByUser(userId) {
     return _provider.fetchOrderByUser(userId);
+  }
+
+  Future addOrder(OrderModel order){
+    return _provider.addOrder(order);
   }
 }

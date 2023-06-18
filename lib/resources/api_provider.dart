@@ -299,4 +299,45 @@ class ApiProvider {
       return null;
     }
   }
+
+  Future addOrder(OrderModel order) async{
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+
+    try {
+      Response response =
+          await _dio.post('${dotenv.env['API_BASE_URL']}orders/add',
+          data: order.toJson(),
+          options: Options(headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          }));
+
+      if (response.statusCode == '200') {
+        //final token = response.data['token'].toString();
+        Fluttertoast.showToast(
+            msg: "Ordine inserito con successo",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        await prefs.setBool('confirmed', true);
+
+        return response.data;
+      }
+
+    } catch (error, stacktrace) {
+      Fluttertoast.showToast(
+          msg: "Errore: ordine non inserito, contattare assistenza",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
 }

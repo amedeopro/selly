@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
+import 'package:selly/bloc/orders_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:selly/components/appbar.dart';
 import 'package:selly/components/drawer.dart';
 import 'package:selly/model/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/order_model.dart';
 
 class CheckoutPage extends StatelessWidget {
   @override
@@ -134,16 +138,33 @@ class CheckoutPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: MaterialButton(
                   onPressed: () async {
+
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
                     BlocProvider.of<FidelityPointsBloc>(context).add(
                         FidelityPointsBlocEventTotal(
                             fidelityPoints.toDouble()));
+
+                    OrderModel order = OrderModel(
+                        shipment: '7',
+                        products: productsInShoppingCart,
+                        created_at: DateTime.now().toString(),
+                        total: total.toStringAsFixed(2),
+                        user_id: prefs.getString('user_id').toString(),
+                        privacy: true,
+                    );
+
+                    BlocProvider.of<OrderBloc>(context).add(AddOrderBlocEvent(order));
+
 
                     BlocProvider.of<ShoppingCartBloc>(context)
                         .add(ShoppingCartBlocEventProductDelete());
 
                     //TODO: creare pagina acquisto completato
                     //Navigator.pushNamed(context, '/home');
+
                     productsInShoppingCart.clear();
+
                   },
                   height: 50,
                   elevation: 0,
