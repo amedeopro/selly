@@ -156,6 +156,44 @@ class ApiProvider {
     }
   }
 
+  Future userRegistration(name, email, password, passwordConfirmation) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      Response response = await _dio.post(
+          '${dotenv.env['API_BASE_URL']}auth/register',
+          data: {
+            'name': name,
+            'email': email,
+            'password': password,
+            'password_confirmation': passwordConfirmation,
+          });
+
+      if (response.data['status'].toString() == 'true') {
+        //final token = response.data['token'].toString();
+        Fluttertoast.showToast(
+            msg: "Registrazione avvenuta con successo",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        return response.data;
+      }
+    } catch (error, stacktrace) {
+      Fluttertoast.showToast(
+          msg: "Errore Login",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   Future userLogout() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";

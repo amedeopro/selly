@@ -5,12 +5,14 @@ import 'package:selly/bloc/categories_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/login_bloc.dart';
 import 'package:selly/bloc/orders_bloc.dart';
+import 'package:selly/bloc/registration_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 import 'package:selly/page/checkout_page.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:selly/page/login_page.dart';
 import 'package:selly/page/my_order_details.dart';
 import 'package:selly/page/my_orders_list.dart';
+import 'package:selly/page/registration_page.dart';
 import 'package:selly/page/welcome_page.dart';
 
 import 'bloc/show_fidelity_bloc.dart';
@@ -38,6 +40,9 @@ void main() async {
         BlocProvider(
           create: (_) => LoginBloc(),
         ),
+        BlocProvider(
+          create: (_) => RegistrationBloc(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -58,6 +63,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (_) => WelcomePage(),
         "/login": (_) => LoginPage(),
+        "/registration": (_) => RegistrationPage(),
         "/home": (_) => HomePage(),
         "/checkout": (_) => CheckoutPage(),
         "/orders": (_) => MyOrdersList(),

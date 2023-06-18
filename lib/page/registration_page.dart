@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:selly/bloc/login_bloc.dart';
 import 'package:selly/page/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../bloc/registration_bloc.dart';
 import '../resources/api_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
 
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmationController = TextEditingController();
 
   @override
   void initState() {
@@ -40,44 +42,26 @@ class _LoginPageState extends State<LoginPage> {
                   image: AssetImage('assets/images/logo.png'),
                   fit: BoxFit.fitWidth,
                 ),
+                name(),
+                SizedBox(
+                  height: 20,
+                ),
                 email(),
                 SizedBox(
                   height: 20,
                 ),
                 password(),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                loginButton(),
+                passwordConfirmation(),
                 SizedBox(
                   height: 10,
                 ),
-                /*guestButton(),
-                SizedBox(
-                  height: 10,
-                ),*/
-                TextButton(
-                  onPressed: (){},
-                  child: Text("Non ricordi la tua password",style: TextStyle(fontSize: 16),),
-                ),
+                registrationButton(),
                 SizedBox(
                   height: 10,
                 ),
-                TextButton(
-                  onPressed: (){
-                    Navigator.pushNamed(context, '/registration');
-                  },
-                  child: Text("Non hai un account",style: TextStyle(fontSize: 16),),
-                ),
-                SizedBox(height: 50,),
-                Text('powered by', style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),),
-                SizedBox(height: 10,),
-                Container(
-                width: MediaQuery.of(context).size.width *0.4,
-                    child: Image.network('https://www.mondovision.it/wp-content/uploads/2018/12/logo_DEF_da_oltre_30_anni.png'),
-                )
               ],
             ),
           );
@@ -99,7 +83,29 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-
+  Widget name() => Padding(
+    padding: EdgeInsets.symmetric(horizontal: 25),
+    child: Container(
+      decoration: BoxDecoration(
+          color: Colors.grey[200],
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: TextFormField(
+          controller: nameController,
+          decoration:
+          InputDecoration(border: InputBorder.none, hintText: 'Il tuo nome / Ragione Sociale'),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Inserisci Il tuo nome o la tua Ragione Sociale';
+            }
+            return null;
+          },
+        ),
+      ),
+    ),
+  );
 
   Widget email() => Padding(
         padding: EdgeInsets.symmetric(horizontal: 25),
@@ -162,9 +168,48 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  Widget loginButton() =>
-      BlocBuilder<LoginBloc, LoginBlocState>(builder: (context, state) {
-        var status = (state as LoginBlocStateToken).status;
+  Widget passwordConfirmation() => Padding(
+    padding: EdgeInsets.symmetric(horizontal: 25),
+    child: Container(
+      decoration: BoxDecoration(
+          color: Colors.grey[200],
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: TextFormField(
+          controller: passwordConfirmationController,
+          obscureText: !_isPasswordVisible,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'Conferma Password',
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Inserisci la password';
+            } else if(passwordController.value.text != value){
+              return 'Le password devono essere uguali';
+            }
+            return null;
+          },
+        ),
+      ),
+    ),
+  );
+
+  Widget registrationButton() =>
+      BlocBuilder<RegistrationBloc, RegistrationBlocState>(builder: (context, state) {
+        var status = (state as RegistrationBlocStateToken).status;
         if (status == 'true') {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacement(
@@ -186,9 +231,12 @@ class _LoginPageState extends State<LoginPage> {
                     await SharedPreferences.getInstance();
                 //Navigator.pushNamed(context, "/home");
                 if (_formKey.currentState!.validate()) {
-                  BlocProvider.of<LoginBloc>(context).add(LoginSubmitEvent(
+                  BlocProvider.of<RegistrationBloc>(context).add(RegistrationSubmitEvent(
+                      nameController.value.text,
                       emailController.value.text,
-                      passwordController.value.text));
+                      passwordController.value.text,
+                      passwordConfirmationController.value.text
+                  ));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Controlla i campi')),
@@ -203,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
-                "Login",
+                "Registrati",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
