@@ -78,6 +78,7 @@ class _MyOrdersListState extends State<MyOrdersList> {
                   subtitle: Text('del ${DateFormat('dd-MM-yyyy HH:mm').format(dateUTC)}'),
                   trailing: ElevatedButton(
                     onPressed: () {
+                      print(ordersLoaded[index]);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

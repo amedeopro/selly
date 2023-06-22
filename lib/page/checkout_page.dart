@@ -145,9 +145,27 @@ class CheckoutPage extends StatelessWidget {
                         FidelityPointsBlocEventTotal(
                             fidelityPoints.toDouble()));
 
+                    print(productsInShoppingCart);
+
+                    List<ProductModel> productsBuyed = [];
+
+                    for(var item in productsInShoppingCart){
+
+                      productsBuyed.add(ProductModel(
+                        id: item.id,
+                        imageUrl: item.imageUrl,
+                        name: item.name,
+                        description: item.description,
+                        price: item.price,
+                        fidelityPoint: item.fidelityPoint,
+                        categoryId: item.categoryId,
+                        quantity: item.quantity,
+                      ));
+                    }
+
                     OrderModel order = OrderModel(
                         shipment: '7',
-                        products: productsInShoppingCart,
+                        products: productsBuyed,
                         created_at: DateTime.now().toString(),
                         total: total.toStringAsFixed(2),
                         user_id: prefs.getString('user_id').toString(),

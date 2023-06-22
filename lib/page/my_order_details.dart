@@ -18,6 +18,7 @@ class MyOrderDetails extends StatefulWidget {
       total: '',
       products: <ProductModel>[
         ProductModel(
+            id: 0,
             imageUrl: '',
             name: '',
             description: '',
@@ -37,6 +38,13 @@ class _MyOrderDetailsState extends State<MyOrderDetails> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool reordering = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    print(widget.order!.products);
+  }
 
   @override
   Widget build(BuildContext context) {

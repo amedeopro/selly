@@ -1,6 +1,7 @@
 import 'package:selly/model/category_model.dart';
 
 class ProductModel {
+  final int id;
   final String imageUrl;
   final String name;
   final String description;
@@ -13,6 +14,7 @@ class ProductModel {
   int total;
 
   ProductModel({
+      required this.id,
       required this.imageUrl,
       required this.name,
       required this.description,
@@ -28,6 +30,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'imageUrl': imageUrl,
       'name': name,
       'description': description,

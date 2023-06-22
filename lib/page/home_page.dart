@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String userName = '';
 
   /*userLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,10 +36,19 @@ class _HomePageState extends State<HomePage> {
     }
   }*/
 
+  getUsername() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('user_name').toString();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     //userLoggedIn();
+    getUsername();
     BlocProvider.of<ShoppingCartBloc>(context)
         .add(ShoppingCartBlocEventInit(context));
     BlocProvider.of<CategoriesBloc>(context).add(CategoriesBlocEventInit());
@@ -74,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           //HomeCarousel()
         ],
       ),
-      drawer: drawer(context),
+      drawer: drawer(context, userName),
     );
   }
 }

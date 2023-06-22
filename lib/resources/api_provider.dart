@@ -39,6 +39,7 @@ class ApiProvider {
 
         productsFromApi.add(
           ProductModel(
+            id: item['id'],
             imageUrl: item['imageUrl'],
             name: item['name'],
             description: item['description'],
@@ -106,6 +107,7 @@ class ApiProvider {
 
         productsFromApi.add(
           ProductModel(
+            id: item['id'],
             imageUrl: item['imageUrl'],
             name: item['name'],
             description: item['description'],
@@ -265,12 +267,14 @@ class ApiProvider {
       final data = response.data['order_by_user'];
 
       List<OrderModel> ordersFromApi = [];
-      final products = <ProductModel>[];
+
 
       for (var item in data) {
+        List<ProductModel> productsInOrderFromApi= [];
         if (item['products'] != null) {
           for (var ord in item['products']) {
-            products.add(ProductModel(
+            productsInOrderFromApi.add(ProductModel(
+              id: ord['id'],
               imageUrl: ord['imageUrl'],
               name: ord['name'],
               description: ord['description'],
@@ -288,7 +292,7 @@ class ApiProvider {
             shipment: item['shipment'],
             created_at: item['created_at'],
             total: item['total'],
-            products: products,
+            products: productsInOrderFromApi,
           ),
         );
       }
