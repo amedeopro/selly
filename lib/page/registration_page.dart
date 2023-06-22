@@ -16,6 +16,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -179,17 +180,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
         padding: const EdgeInsets.only(left: 20),
         child: TextFormField(
           controller: passwordConfirmationController,
-          obscureText: !_isPasswordVisible,
+          obscureText: !_isConfirmPasswordVisible,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Conferma Password',
             suffixIcon: IconButton(
               icon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
               ),
               onPressed: () {
                 setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
+                  _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                 });
               },
             ),

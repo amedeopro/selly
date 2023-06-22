@@ -56,10 +56,10 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),*/
-                TextButton(
+                /*TextButton(
                   onPressed: (){},
                   child: Text("Non ricordi la tua password",style: TextStyle(fontSize: 16),),
-                ),
+                ),*/
                 SizedBox(
                   height: 10,
                 ),
