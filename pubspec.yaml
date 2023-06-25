@@ -40,6 +40,7 @@ dependencies:
   input_quantity: ^1.1.5
   fluttertoast: ^8.2.1
   intl: ^0.18.1
+  step_progress_indicator: ^1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -40,22 +40,7 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                           softWrap: true,
                         ),
                       ),
-                    ) /*Stack(
-                children: [
-                  Positioned(
-                    bottom: 0,
-                    child: Text(
-                      'Benvenuto ${userName}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
-                      softWrap: true,
-                    ),
-                  ),
-                ],
-              ),*/
+                    )
                     ),
                 ListTile(
                   title: const Text('I miei ordini'),
@@ -67,7 +52,9 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                 ListTile(
                   title: const Text('Catalogo premi'),
                   onTap: () {
-                    Navigator.pop(context!);
+                    //Navigator.pop(context!);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context!, "/catalog", (route) => false);
                   },
                 ),
               ],
