@@ -72,7 +72,20 @@ class CheckoutPage extends StatelessWidget {
                             content: Text(
                                 '${productsInShoppingCart[index].name} eliminato')));
                       },
-                      background: Container(color: Colors.red),
+                      background: Container(
+                        color: Colors.red,
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 16.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),),
                       child: ListTile(
                           leading: CircleAvatar(
                             radius: 30,
