@@ -57,6 +57,14 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                         context!, "/catalog", (route) => false);
                   },
                 ),
+                ListTile(
+                  title: const Text('Dove trovarci'),
+                  onTap: () {
+                    //Navigator.pop(context!);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context!, "/storelocator", (route) => false);
+                  },
+                ),
               ],
             ),
           ),
