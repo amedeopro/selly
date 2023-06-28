@@ -78,7 +78,7 @@ class _WelcomePageState extends State<WelcomePage>
             borderRadius: BorderRadius.circular(20.0),
           ),
           elevation: 2,
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.yellow.shade700,
         ),
         child: const Padding(
           padding: EdgeInsets.symmetric(
