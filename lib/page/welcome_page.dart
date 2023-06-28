@@ -11,14 +11,14 @@ class WelcomePage extends StatefulWidget {
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
-
+class _WelcomePageState extends State<WelcomePage>
+    with SingleTickerProviderStateMixin {
   AnimationController? controller;
   Animation? animation;
 
   final _provider = ApiProvider();
 
-  Future<void> getToken() async{
+  Future<void> getToken() async {
     //SharedPreferences prefs = await SharedPreferences.getInstance();
     var token;
     await Future.delayed(Duration.zero, () {
@@ -26,14 +26,12 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
         return token = prefs.getString('token').toString();
       });
     });
-    if(token != ""){
+    if (token != "") {
       _provider.checkIfUserIsLogged(context);
     } else {
-      Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          )
-      );
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ));
     }
   }
 
@@ -75,6 +73,13 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
       );
 
   Widget _signInButton(BuildContext context) => ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 2,
+          backgroundColor: Colors.orange,
+        ),
         child: const Padding(
           padding: EdgeInsets.symmetric(
             vertical: 8.0,
@@ -87,14 +92,13 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
             ),
           ),
         ),
-        onPressed: () async{
+        onPressed: () async {
           /*Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const LoginPage(),
           )*/
 
           await getToken();
-
         },
       );
 }
