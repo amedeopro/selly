@@ -15,12 +15,18 @@ import 'package:selly/page/my_orders_list.dart';
 import 'package:selly/page/registration_page.dart';
 import 'package:selly/page/welcome_page.dart';
 import 'package:selly/page/catalog.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'bloc/show_fidelity_bloc.dart';
 
-void main() async {
+Future<void> main() async {
   await dotenv.load(fileName: ".env");
-  runApp(
+
+  await SentryFlutter.init((options){
+    options.dsn = 'https://f4f5fc7110064a11bf82b95998c6a662@o4505433155174400.ingest.sentry.io/4505433156026368';
+    options.tracesSampleRate = 1.0;
+  },
+  appRunner: () =>   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -47,7 +53,10 @@ void main() async {
       ],
       child: MyApp(),
     ),
+  )
   );
+
+
 }
 
 class MyApp extends StatelessWidget {

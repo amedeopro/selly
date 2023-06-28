@@ -66,13 +66,12 @@ class _CatalogPageState extends State<CatalogPage> {
                 title: Text('Premio $index'),
                 subtitle: Column(
                   children: [
-                    Text('${generateIncreasingRandomNumber(100, 100)}'),
                     SizedBox(
                       height: 10,
                     ),
                     StepProgressIndicator(
                       totalSteps: generateIncreasingRandomNumber(100, 100),
-                      currentStep: totalPoints.toInt(),
+                      currentStep: generateIncreasingRandomNumber(0, 85),
                       size: 20,
                       padding: 0,
                       selectedColor: Colors.yellow,

@@ -19,23 +19,30 @@ Widget floatingCheckoutButton([bool removeUntil = false]) =>
             left: 16,
             right: 16,
             bottom: 32,
-            child: MaterialButton(
-              onPressed: () {
-                if(removeUntil){
-                  Navigator.popAndPushNamed(context, "/checkout");
-                } else {
-                  Navigator.pushNamed(context, "/checkout");
-                }
-              },
-              height: 50,
-              elevation: 0,
-              minWidth: double.infinity,
-              color: Colors.yellow.shade700,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child:
+            child: Flex(
+              direction: Axis.horizontal,
+              children:[
+                Flexible(
+                  flex: 1,
+                  child: MaterialButton(
+                  onPressed: () {
+                    if(removeUntil){
+                      Navigator.popAndPushNamed(context, "/checkout");
+                    } else {
+                      Navigator.pushNamed(context, "/checkout");
+                    }
+                  },
+                  height: 50,
+                  elevation: 0,
+                  minWidth: double.infinity,
+                  color: Colors.yellow.shade700,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child:
                   Text("Completa acquisto (${productsInShoppingCart.length})"),
+                ),)
+              ]
             ),
           );
         }

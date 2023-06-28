@@ -36,9 +36,12 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               children: [
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                  fit: BoxFit.fitWidth,
+                Container(
+                  height: 200,
+                  child: Image(
+                    image: AssetImage('assets/images/logo.png'),
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
                 email(),
                 SizedBox(
@@ -90,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   AppBar appBar() => AppBar(
+    automaticallyImplyLeading: false,
         backgroundColor: Colors.grey.shade100,
         elevation: 0,
         centerTitle: true,

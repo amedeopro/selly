@@ -11,7 +11,10 @@ class WelcomePage extends StatefulWidget {
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
+
+  AnimationController? controller;
+  Animation? animation;
 
   final _provider = ApiProvider();
 
@@ -34,7 +37,6 @@ class _WelcomePageState extends State<WelcomePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +51,16 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget _welcomeWidget() => Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image(
-              image: AssetImage('assets/images/logo_welcome.png'),
-              fit: BoxFit.fitWidth,
+            Container(
+              height: controller?.value,
+              child: Image(
+                image: AssetImage('assets/images/logo.png'),
+                fit: BoxFit.fitWidth,
+              ),
             ),
-            Padding(
+            /*Padding(
               padding: EdgeInsets.only(top: 48),
               child: Text(
                 'Selly',
@@ -63,7 +69,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            )
+            )*/
           ],
         ),
       );

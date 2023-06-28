@@ -75,6 +75,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
         backgroundColor: Colors.grey.shade100,
         elevation: 0,
         centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
         title: Text(
           "SELLY",
           style: TextStyle(
