@@ -21,7 +21,7 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                       color: Colors.orange,
                       image: DecorationImage(
                         image: NetworkImage(
-                            "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
+                            "https://i.pravatar.cc/300"),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                             Colors.black.withOpacity(0.5), BlendMode.darken),
@@ -63,6 +63,13 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                     //Navigator.pop(context!);
                     Navigator.pushNamedAndRemoveUntil(
                         context!, "/storelocator", (route) => false);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Il mio profilo'),
+                  onTap: () {
+                    //Navigator.pop(context!);
+                    //Navigator.pushNamedAndRemoveUntil(context!, "/storelocator", (route) => false);
                   },
                 ),
               ],

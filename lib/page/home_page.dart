@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   color: Colors.grey.shade100,
-                  child: floatingFidelity(context),
+                  child: floatingFidelity(context, userName),
                 );
               } else {
                 return ShowFidelityButton();

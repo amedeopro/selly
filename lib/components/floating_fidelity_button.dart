@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/fidelity_points_bloc.dart';
 import 'package:selly/bloc/show_fidelity_bloc.dart';
 
-Widget floatingFidelity(context) =>
+Widget floatingFidelity(context, username) =>
     BlocBuilder<FidelityPointsBloc, FidelityPointsBlocState>(
         builder: (context, state) {
       final double total = (state as FidelityPointsBlocStateValue).points;
@@ -34,10 +34,10 @@ Widget floatingFidelity(context) =>
                 leading: CircleAvatar(
                   radius: 30,
                   backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
+                      "https://i.pravatar.cc/300"),
                 ),
                 title: Text(
-                  "Amedeo Pro",
+                  username,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.white,

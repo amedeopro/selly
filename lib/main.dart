@@ -12,6 +12,7 @@ import 'package:selly/page/home_page.dart';
 import 'package:selly/page/login_page.dart';
 import 'package:selly/page/my_order_details.dart';
 import 'package:selly/page/my_orders_list.dart';
+import 'package:selly/page/profile.dart';
 import 'package:selly/page/registration_page.dart';
 import 'package:selly/page/storelocator_page.dart';
 import 'package:selly/page/welcome_page.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
         "/orders/details": (_) => MyOrderDetails(),
         "/catalog": (_) => CatalogPage(),
         "/storelocator": (_) => StoreLocatorPage(),
+        "/profile": (_) => ProfilePage(),
       },
     );
   }
