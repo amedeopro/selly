@@ -122,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ? "Rimuovi"
                                 : "Aggiungi"),
                           ),
-                          floatingCheckoutButton(),
+                          floatingCheckoutButton(false, true),
                         ],
                       ),
                     );

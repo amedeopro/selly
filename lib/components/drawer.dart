@@ -29,7 +29,7 @@ Drawer drawer([BuildContext? context, String userName = '']) => Drawer(
                     ),
                     child: Align(
                       alignment: Alignment.bottomLeft,
-                      child: Flexible(
+                      child: Container(
                         child: Text(
                           '${userName}',
                           style: TextStyle(

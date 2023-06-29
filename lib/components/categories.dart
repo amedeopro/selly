@@ -13,7 +13,7 @@ Widget categories() => BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
       return Container(
         color: Colors.grey.shade100,
         padding: const EdgeInsets.symmetric(vertical: 10),
-        margin: EdgeInsets.symmetric(vertical: show ? 64.0 : 35.0),
+        margin: EdgeInsets.symmetric(vertical: 78.0 ),
         height: 50.0,
         child: BlocBuilder<CategoriesBloc, CategoriesBlocState>(
           builder: (context, state) {

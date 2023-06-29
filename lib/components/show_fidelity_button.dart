@@ -16,14 +16,7 @@ class ShowFidelityButton extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.orange,
-              Colors.red,
-            ],
-          ),
+          color: Colors.deepOrange
         ),
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(

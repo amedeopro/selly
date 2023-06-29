@@ -65,21 +65,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           sectionProducts(),
           floatingCheckoutButton(),
-          BlocBuilder<ShowFidelityBloc, ShowFidelityBlocState>(
-            builder: (context, state) {
-              final bool show =
-                  (state as ShowFidelityBlocStateValue).showFidelity;
-              if (show) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  color: Colors.grey.shade100,
-                  child: floatingFidelity(context, userName),
-                );
-              } else {
-                return ShowFidelityButton();
-              }
-            },
-          ),
+          floatingFidelity(context, userName),
           categories(),
           //HomeCarousel()
         ],

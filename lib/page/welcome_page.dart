@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:selly/page/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 
 import '../resources/api_provider.dart';
 
@@ -13,8 +14,8 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage>
     with SingleTickerProviderStateMixin {
-  AnimationController? controller;
-  Animation? animation;
+
+  VideoPlayerController? _controller;
 
   final _provider = ApiProvider();
 
@@ -34,16 +35,49 @@ class _WelcomePageState extends State<WelcomePage>
       ));
     }
   }
+  @override
+  void initState() {
+    super.initState();
+    // Pointing the video controller to our local asset.
+    _controller = VideoPlayerController.asset("assets/video/coffee.mp4")
+      ..initialize().then((_) {
+
+        _controller?.play();
+        _controller?.setLooping(true);
+
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      padding: const EdgeInsets.all(64.0),
-      child: Column(
-        children: [_welcomeWidget(), _signInButton(context)],
-      ),
-    ));
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: SizedBox(
+                  width: _controller?.value.size?.width ?? 0,
+                  height: _controller?.value.size?.height ?? 0,
+                  child: VideoPlayer(_controller!),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(64.0),
+              child: Column(
+                children: [_welcomeWidget(), _signInButton(context)],
+              ),
+            ),
+          ]
+        ));
   }
 
   Widget _welcomeWidget() => Expanded(
@@ -52,22 +86,11 @@ class _WelcomePageState extends State<WelcomePage>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: controller?.value,
               child: Image(
                 image: AssetImage('assets/images/logo.png'),
                 fit: BoxFit.fitWidth,
               ),
             ),
-            /*Padding(
-              padding: EdgeInsets.only(top: 48),
-              child: Text(
-                'Selly',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )*/
           ],
         ),
       );

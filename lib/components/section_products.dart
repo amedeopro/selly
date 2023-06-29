@@ -47,7 +47,7 @@ Widget sectionProducts() =>
               (stateShopping as ShoppingCartBlocStateLoaded).products;
           if (productsLoaded != null) {
             return GridView.builder(
-              padding: EdgeInsets.fromLTRB(16, show ? 125 : 95, 16, 100),
+              padding: EdgeInsets.fromLTRB(16, 140 , 16, 100),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
