@@ -218,6 +218,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget registrationButton() =>
       BlocBuilder<RegistrationBloc, RegistrationBlocState>(builder: (context, state) {
         var status = (state as RegistrationBlocStateToken).status;
+
         if (status == 'true') {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacement(
@@ -258,12 +259,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
+              child: state.isLoading == false ? Text(
                 "Registrati",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
+              ) : Center(
+                child: CircularProgressIndicator(),
               ),
             ),
           );

@@ -3,11 +3,12 @@ import 'package:selly/resources/api_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationBloc extends Bloc<RegistrationBlocEvent, RegistrationBlocState> {
-  RegistrationBloc() : super(RegistrationBlocStateToken('',"false")) {
+  RegistrationBloc() : super(RegistrationBlocStateToken("","false", false)) {
     final ApiRepository _apiRepository = ApiRepository();
 
     on<RegistrationSubmitEvent>((event, emit) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      emit(RegistrationBlocStateToken("", "false", true));
       try {
         final register = await _apiRepository.registration(event.name, event.email, event.password, event.passwordConfirmation);
 
@@ -20,8 +21,7 @@ class RegistrationBloc extends Bloc<RegistrationBlocEvent, RegistrationBlocState
         await prefs.setString('user_id', register['user_id'].toString());
         await prefs.setString('user_name', register['user_name'].toString());
 
-        emit(RegistrationBlocStateToken(
-            register['token'].toString(), register['status'].toString()));
+        emit(RegistrationBlocStateToken(register['token'].toString(), register['status'].toString(), false));
       } catch (e) {
         await prefs.setString('status', 'false');
         print(e);
@@ -47,5 +47,6 @@ abstract class RegistrationBlocState {}
 class RegistrationBlocStateToken extends RegistrationBlocState {
   String token;
   String status;
-  RegistrationBlocStateToken(this.token, this.status);
+  bool isLoading;
+  RegistrationBlocStateToken(this.token, this.status, this.isLoading);
 }
