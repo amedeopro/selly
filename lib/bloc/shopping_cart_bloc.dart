@@ -11,7 +11,7 @@ class ShoppingCartBloc
     on<ShoppingCartBlocEventInit>((event, emit) async {
       try {
         emit(ShoppingCartBlocStateLoading());
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
         final products = await _apiRepository.fetchProductList();
         emit(ShoppingCartBlocStateLoaded(products as List<ProductModel>));
       } catch (e) {
