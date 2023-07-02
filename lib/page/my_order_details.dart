@@ -77,7 +77,7 @@ class _MyOrderDetailsState extends State<MyOrderDetails> {
                     },
                   ),
                 ),
-                floatingCheckoutButton(true),
+                floatingCheckoutButton(false, true),
                 SizedBox(height: 10,),
                 Container(
                   margin: EdgeInsets.only(bottom: 10),

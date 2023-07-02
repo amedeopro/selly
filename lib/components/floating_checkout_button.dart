@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selly/bloc/shopping_cart_bloc.dart';
 
-Widget floatingCheckoutButton([bool removeUntil = false, fromproductDetails = false]) =>
+Widget floatingCheckoutButton([bool removeUntil = false, noPositioned = false]) =>
     BlocBuilder<ShoppingCartBloc, ShoppingCartBlocState>(
         builder: (context, state) {
       if (state is ShoppingCartBlocStateLoading) {
@@ -15,7 +15,7 @@ Widget floatingCheckoutButton([bool removeUntil = false, fromproductDetails = fa
         if (productsInShoppingCart.isEmpty) {
           return SizedBox();
         } else {
-          if(!fromproductDetails){
+          if(noPositioned == false){
             return Positioned(
               left: 16,
               right: 16,
