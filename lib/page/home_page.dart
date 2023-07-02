@@ -74,3 +74,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+/*Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.grey.shade100,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            pinned: true,
+            snap: true,
+            floating: true,
+            expandedHeight: 160.0,
+            collapsedHeight: 50,
+            toolbarHeight: 50,
+            flexibleSpace: const FlexibleSpaceBar(
+              title: Text('SELLY'),
+              background: FlutterLogo(),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: categories(),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 600,
+              child: sectionProducts(),
+            ),
+          ),
+        ],
+      ),
+      drawer: drawer(context, userName),
+    );*/
